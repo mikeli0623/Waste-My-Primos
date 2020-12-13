@@ -6,3 +6,7 @@ dakdadldma
 
 # To Do
 - make better
+# How to Use
+- git clone
+- npm install
+- npm run

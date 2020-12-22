@@ -1,45 +1,93 @@
-export const multiPath = "./img/gacha/multi/";
+import parseJSON from "../classes/parseJSON";
 
-export const singlePath = "./img/gacha/single/";
-
-export const mainBannerPath = "./img/banner/";
+export const type = {
+  Hydro: "./assets/img/misc/hydro.webp",
+  Pyro: "./assets/img/misc/pyro.webp",
+  Geo: "./assets/img/misc/geo.webp",
+  Electro: "./assets/img/misc/electro.webp",
+  Dendro: "./assets/img/misc/dendro.webp",
+  Cryo: "./assets/img/misc/cryo.webp",
+  Anemo: "./assets/img/misc/anemo.webp",
+  Bow: "./assets/img/misc/bow.webp",
+  Catalyst: "./assets/img/misc/catalyst.webp",
+  Claymore: "./assets/img/misc/claymore.webp",
+  Polearm: "./assets/img/misc/polearm.webp",
+  Sword: "./assets/img/misc/sword.webp",
+};
 
 export const baseThreeStar = [
-  "Weapon_Sharpshooter's_Oath_3.png",
-  "Weapon_Slingshot_3.png",
-  "Weapon_Raven_Bow_3.png",
-  "Weapon_Emerald_Orb_3.png",
-  "Weapon_Thrilling_Tales_of_Dragon_Slayers_3.png",
-  "Weapon_Magic_Guide_3.png",
-  "Weapon_Black_Tassel_3.png",
-  "Weapon_Debate_Club_3.png",
-  "Weapon_Bloodtainted_Greatsword_3.png",
-  "Weapon_Ferrous_Shadow_3.png",
-  "Weapon_Skyrider_Sword_3.png",
-  "Weapon_Harbinger_of_Dawn_3.png",
-  "Weapon_Cool_Steel_3.png",
+  "sharpshooter's_oath",
+  "slingshot",
+  "raven_bow",
+  "emerald_orb",
+  "thrilling_tales_of_dragon_slayers",
+  "magic_guide",
+  "black_tassel",
+  "debate_club",
+  "bloodtainted_greatsword",
+  "ferrous_shadow",
+  "skyrider_sword",
+  "harbinger_of_dawn",
+  "cool_steel",
 ];
 
 export const allMiniBanners = [
-  "./img/misc/mini-banners/zhongli.webp",
-  "./img/misc/mini-banners/childe.webp",
-  "./img/misc/mini-banners/klee.webp",
-  "./img/misc/mini-banners/venti.webp",
-  "./img/misc/mini-banners/zhongli_ei.webp",
-  "./img/misc/mini-banners/childe_ei.webp",
-  "./img/misc/mini-banners/klee_ei.webp",
-  "./img/misc/mini-banners/venti_ei.webp",
-  "./img/misc/mini-banners/standard.webp",
+  "./assets/img/misc/mini-banners/zhongli.webp",
+  "./assets/img/misc/mini-banners/childe.webp",
+  "./assets/img/misc/mini-banners/klee.webp",
+  "./assets/img/misc/mini-banners/venti.webp",
+  "./assets/img/misc/mini-banners/zhongli_ei.webp",
+  "./assets/img/misc/mini-banners/childe_ei.webp",
+  "./assets/img/misc/mini-banners/klee_ei.webp",
+  "./assets/img/misc/mini-banners/venti_ei.webp",
+  "./assets/img/misc/mini-banners/standard.webp",
 ];
 
-export const allMainBanners = [
-  "./img/banner/zhongli.webp",
-  "./img/banner/childe.webp",
-  "./img/banner/klee.webp",
-  "./img/banner/venti.webp",
-  "./img/banner/zhongli_ei.webp",
-  "./img/banner/childe_ei.webp",
-  "./img/banner/klee_ei.webp",
-  "./img/banner/venti_ei.webp",
-  "./img/banner/standard.webp",
+export const allChars = [
+  "amber",
+  "barbara",
+  "beidou",
+  "bennett",
+  "chongyun",
+  "diluc",
+  "diona",
+  "fischl",
+  "jean",
+  "kaeya",
+  "keqing",
+  "klee",
+  "lisa",
+  "mona",
+  "ningguang",
+  "noelle",
+  "qiqi",
+  "razor",
+  "sucrose",
+  "tartaglia",
+  "venti",
+  "xiangling",
+  "xingqiu",
+  "xinyan",
+  "zhongli",
 ];
+
+export const bannerName = {
+  zhongli: "Gentry of Hermitage",
+  childe: "Farewell of Snezhnaya",
+  klee: "Sparkling Steps",
+  venti: "Ballad in Goblets",
+};
+
+export const allBannersAbbr = [
+  "zhongli",
+  "childe",
+  "klee",
+  "venti",
+  "zhongli_ei",
+  "childe_ei",
+  "klee_ei",
+  "venti_ei",
+  "standard",
+];
+
+export const json = new parseJSON();

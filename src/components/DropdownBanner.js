@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { allBannersAbbr, json } from "../classes/Constants";
 import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from "reactstrap";
 
-const MiniTooltip = ({ miniBanners, activeMinis, onSelect }) => {
+const MiniTooltip = ({ miniBanners, bannersActive, onSelect }) => {
   const [toolTip, setToolTip] = useState({});
 
   const toggle = (targetName) => {
@@ -25,16 +26,16 @@ const MiniTooltip = ({ miniBanners, activeMinis, onSelect }) => {
   const isToolTipOpen = (targetName) => {
     return toolTip[targetName] ? toolTip[targetName].tooltipOpen : false;
   };
+
   return (
     <>
       {miniBanners.map((miniBanner, index) => {
-        const short = miniBanner.split("/").pop().split(".")[0];
-        if (activeMinis.includes(miniBanner)) return null;
+        if (bannersActive.includes(miniBanner)) return null;
         return (
           <div key={miniBanner + index}>
             <img
-              src={miniBanner}
-              alt={miniBanner}
+              src={json.getMini(miniBanner)}
+              alt={miniBanner + "-mini-banner"}
               id={`mini-${index}`}
               onClick={() => onSelect(miniBanner)}
             />
@@ -45,7 +46,7 @@ const MiniTooltip = ({ miniBanners, activeMinis, onSelect }) => {
               toggle={() => toggle(`mini-${index}`)}
               style={{ backgroundColor: "#282c34" }}
             >
-              {short}
+              {json.getTitle(miniBanner)}
             </Tooltip>
           </div>
         );
@@ -54,11 +55,11 @@ const MiniTooltip = ({ miniBanners, activeMinis, onSelect }) => {
   );
 };
 
-const DropdownBanner = ({ miniBanners, changeBanner, index, activeMinis }) => {
+const DropdownBanner = ({ changeBanner, bannersActive }) => {
   const [dropOpen, setDropOpen] = useState(false);
 
   const toggleDrop = (miniBanner) => {
-    if (miniBanner) changeBanner(miniBanner, index);
+    if (miniBanner) changeBanner(miniBanner);
     setDropOpen((prevState) => !prevState);
   };
 
@@ -73,16 +74,18 @@ const DropdownBanner = ({ miniBanners, changeBanner, index, activeMinis }) => {
           style={{
             height: "30px",
             width: "120px",
-            backgroundImage: "url(./img/misc/choose.png)",
+            backgroundImage: "url(./assets/img/misc/theme.webp)",
             backgroundSize: "120px  30px",
             backgroundRepeat: "no-repeat",
           }}
         />
-        <DropdownMenu style={{ backgroundColor: "rgba(222, 219, 208, 0.5)" }}>
+        <DropdownMenu style={{ backgroundColor: "rgba(50, 50, 50, 0.5)" }}>
           <MiniTooltip
-            miniBanners={miniBanners}
-            activeMinis={activeMinis}
+            miniBanners={allBannersAbbr.filter((banner) => {
+              return !banner.includes("_ei");
+            })}
             onSelect={toggleDrop}
+            bannersActive={bannersActive}
           />
         </DropdownMenu>
       </Dropdown>

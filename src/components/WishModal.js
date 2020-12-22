@@ -1,7 +1,9 @@
 import React from "react";
+import parseJSON from "../classes/parseJSON";
 import { Modal, ModalBody } from "reactstrap";
 
-const WishModal = ({ images, modal, toggle, wishes }) => {
+const json = new parseJSON();
+const WishModal = ({ images, modalState, toggle, wishes }) => {
   const imagePrinter = () => {
     images = sortWishes(images);
     return images.map((image, index) => {
@@ -10,7 +12,7 @@ const WishModal = ({ images, modal, toggle, wishes }) => {
           key={image + index}
           className="wish-result"
           style={{
-            backgroundImage: `url("${image}")`,
+            backgroundImage: `url("${json.getMulti(image)}")`,
             height: "800px",
             width: "107px",
             backgroundSize: "107px  800px",
@@ -23,17 +25,17 @@ const WishModal = ({ images, modal, toggle, wishes }) => {
 
   const sortWishes = (results) => {
     return results.sort((a, b) => {
-      let starA = a.slice(-5, -4) * 1000;
-      let starB = b.slice(-5, -4) * 1000;
-      if (a.includes("Weapon_")) starA -= 100;
-      else if (b.includes("Weapon_")) starB -= 100;
+      let starA = json.getStars(a) * 100;
+      let starB = json.getStars(b) * 100;
+      if (!json.isChar(a)) starA -= 10;
+      else if (!json.isChar(b)) starB -= 10;
       return starB - starA;
     });
   };
 
   return (
     <Modal
-      isOpen={modal}
+      isOpen={modalState}
       toggle={toggle}
       centered={true}
       className="wish-modal"

@@ -1,59 +1,57 @@
 import React from "react";
-import { CarouselControl } from "reactstrap";
+import { allBannersAbbr } from "../classes/Constants";
 import Carousel from "./Carousel/Carousel";
 import CarouselItem from "./Carousel/CarouselItem";
+import parseJSON from "../classes/parseJSON";
+import { CarouselControl } from "reactstrap";
+import LazyLoad from "react-lazyload";
+
+const json = new parseJSON();
 
 const MainBanner = ({
   setActive,
   activeIndex,
-  activeMain,
-  allMain,
+  banners,
   direction,
-  convertedIndex,
   animating,
   setAnimating,
 }) => {
-  const next = (setActive, activeMain) => {
+  const next = (banners) => {
     if (animating) return;
-    const nextIndex =
-      activeIndex === activeMain.length - 1 ? 0 : activeIndex + 1;
+    const nextIndex = activeIndex === banners.length - 1 ? 0 : activeIndex + 1;
     setActive(nextIndex);
   };
 
-  const previous = (setActive, activeMain) => {
+  const previous = (banners) => {
     if (animating) return;
-    const nextIndex =
-      activeIndex === 0 ? activeMain.length - 1 : activeIndex - 1;
+    const nextIndex = activeIndex === 0 ? banners.length - 1 : activeIndex - 1;
     setActive(nextIndex);
   };
 
-  const isActiveMain = (banner, activeMain) => {
-    for (let i = 0; i < activeMain.length; i++) {
-      if (banner === activeMain[i]) return true;
-    }
-    return false;
-  };
-
-  const slides = allMain.map((banner) => {
+  const slides = allBannersAbbr.map((banner) => {
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
         key={banner}
       >
+        {/* <LazyLoad height={570}> */}
         <img
-          className={`${isActiveMain(banner, activeMain) ? "" : "transparent"}`}
-          height="540px"
-          src={banner}
+          className={`main-banner ${
+            banners.includes(banner) ? "" : "transparent"
+          }`}
+          height="570px"
+          src={json.getMain(banner)}
           alt={banner}
         />
+        {/* </LazyLoad> */}
       </CarouselItem>
     );
   });
 
   return (
     <Carousel
-      activeIndex={convertedIndex(allMain, activeMain, activeIndex)}
+      activeIndex={allBannersAbbr.indexOf(banners[activeIndex])}
       next={next}
       previous={previous}
       direction={direction}
@@ -62,12 +60,12 @@ const MainBanner = ({
       <CarouselControl
         direction="prev"
         directionText="Previous"
-        onClickHandler={() => previous(setActive, activeMain)}
+        onClickHandler={() => previous(banners)}
       />
       <CarouselControl
         direction="next"
         directionText="Next"
-        onClickHandler={() => next(setActive, activeMain)}
+        onClickHandler={() => next(banners)}
       />
     </Carousel>
   );

@@ -5,7 +5,7 @@ const Stats = ({ primos }) => {
     <div id="stats">
       <div className="stat" style={{ width: "120px" }}>
         <img
-          src="./img/misc/primogem.png"
+          src="./assets/img/misc/primogem.webp"
           alt="primo"
           height="32px"
           style={{ marginLeft: "5px" }}
@@ -20,7 +20,7 @@ const Stats = ({ primos }) => {
         }}
       >
         <img
-          src="./img/misc/money.png"
+          src="./assets/img/misc/money.webp"
           alt="money"
           height="32px"
           style={{ marginLeft: "10px" }}

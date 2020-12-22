@@ -1,5 +1,5 @@
 import React from "react";
-import DropdownBanner from "./DropdownBanner";
+import { allBannersAbbr, json } from "../classes/Constants";
 
 const MiniBanner = ({
   miniBanner,
@@ -7,109 +7,73 @@ const MiniBanner = ({
   index,
   activeIndex,
   isActive,
-  allMinis,
-  activeMinis,
-  convertedIndex,
+  allBanners,
+  bannersActive,
 }) => {
   return (
     <img
       className={`mini-banner ${
-        convertedIndex(allMinis, activeMinis, activeIndex) === index
+        allBanners.indexOf(bannersActive[activeIndex]) === index
           ? isActive
-            ? ""
+            ? "selected"
             : "transparent"
           : !isActive
           ? ""
           : "transparent"
       }`}
       src={
-        convertedIndex(allMinis, activeMinis, activeIndex) === index
+        allBanners.indexOf(bannersActive[activeIndex]) === index
           ? isActive
-            ? `${miniBanner.slice(0, miniBanner.length - 5)}_active.webp`
-            : `${miniBanner}`
+            ? json.getMiniActive(miniBanner)
+            : json.getMini(miniBanner)
           : !isActive
-          ? `${miniBanner}`
-          : `${miniBanner.slice(0, miniBanner.length - 5)}_active.webp`
+          ? json.getMini(miniBanner)
+          : json.getMiniActive(miniBanner)
       }
       alt={
-        convertedIndex(allMinis, activeMinis, activeIndex) === index
+        allBanners.indexOf(bannersActive[activeIndex]) === index
           ? isActive
-            ? `${miniBanner.slice(0, miniBanner.length - 5)}_active.webp`
-            : `${miniBanner}`
+            ? json.getMiniActive(miniBanner)
+            : json.getMini(miniBanner)
           : !isActive
-          ? `${miniBanner}`
-          : `${miniBanner.slice(0, miniBanner.length - 5)}_active.webp`
+          ? json.getMini(miniBanner)
+          : json.getMiniActive(miniBanner)
       }
       height="90"
-      onClick={() => setActive(convertedIndex(activeMinis, allMinis, index))}
+      onClick={() => setActive(bannersActive.indexOf(allBanners[index]))}
     />
   );
 };
 
-const sameMini = (miniBanner, activeMinis) => {
-  for (let i = 0; i < activeMinis.length; i++) {
-    if (miniBanner === activeMinis[i]) return true;
-  }
-  return false;
-};
-
-const MiniBanners = ({
-  activeMinis,
-  setActive,
-  activeIndex,
-  allMinis,
-  changeBanner,
-  convertedIndex,
-}) => {
+const MiniBanners = ({ bannersActive, setActive, activeIndex }) => {
   return (
     <div className="mini-banners">
-      {allMinis.map((miniBanner, index) => {
+      {allBannersAbbr.map((miniBanner, index) => {
         return (
           <div
             className={`${
-              sameMini(miniBanner, activeMinis) ? "triplet" : "transparent"
+              bannersActive.includes(miniBanner) ? "pair" : "transparent"
             }`}
             key={miniBanner + index}
           >
-            <div className={`pair`}>
-              <MiniBanner
-                miniBanner={miniBanner}
-                setActive={setActive}
-                index={index}
-                activeIndex={activeIndex}
-                isActive={true}
-                allMinis={allMinis}
-                activeMinis={activeMinis}
-                convertedIndex={convertedIndex}
-              />
-              <MiniBanner
-                miniBanner={miniBanner}
-                setActive={setActive}
-                index={index}
-                activeIndex={activeIndex}
-                isActive={false}
-                allMinis={allMinis}
-                activeMinis={activeMinis}
-                convertedIndex={convertedIndex}
-              />
-            </div>
-            {miniBanner.includes("standard") ? (
-              <div />
-            ) : (
-              <DropdownBanner
-                miniBanners={
-                  miniBanner.includes("_ei")
-                    ? allMinis.slice(
-                        (allMinis.length - 1) / 2,
-                        allMinis.length - 1
-                      )
-                    : allMinis.slice(0, (allMinis.length - 1) / 2)
-                }
-                changeBanner={changeBanner}
-                index={index}
-                activeMinis={activeMinis}
-              />
-            )}
+            <MiniBanner
+              miniBanner={miniBanner}
+              setActive={setActive}
+              index={index}
+              activeIndex={activeIndex}
+              isActive={true}
+              allBanners={allBannersAbbr}
+              bannersActive={bannersActive}
+            />
+            <MiniBanner
+              miniBanner={miniBanner}
+              setActive={setActive}
+              index={index}
+              activeIndex={activeIndex}
+              isActive={false}
+              allBanners={allBannersAbbr}
+              bannersActive={bannersActive}
+            />
           </div>
         );
       })}

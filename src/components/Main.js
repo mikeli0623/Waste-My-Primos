@@ -1,23 +1,19 @@
-import React, { useEffect, useState, Suspense, lazy } from "react";
-import {
-  mainBannerPath,
-  multiPath,
-  baseThreeStar,
-  allMiniBanners,
-  allMainBanners,
-} from "../classes/Constants";
+import React, { useEffect, useState } from "react";
+import { baseThreeStar } from "../classes/Constants";
 import NavBar from "./NavBar";
+import DropdownBanner from "./DropdownBanner";
+import MainBanner from "./MainBanner";
 import MiniBanners from "./MiniBanners";
 import WishButtons from "./WishButtons";
 import WishModal from "./WishModal";
 import WishSingle from "./WishSingle";
+import SkipCheckboxes from "./SkipCheckboxes";
 import Stats from "./Stats";
 import Footer from "./Footer";
-import History from "../classes/History";
+// import History from "../classes/History";
 import { allBanners } from "../classes/Banner";
-const MainBanner = lazy(() => import("./MainBanner"));
 
-let history = [];
+// let history = [];
 
 const Main = () => {
   const [state, setState] = useState({
@@ -30,21 +26,14 @@ const Main = () => {
 
   const [currentWish, setCurrentWish] = useState([]);
 
-  const [miniBannersActive, setMiniBannersActive] = useState([
-    "./img/misc/mini-banners/zhongli.webp",
-    "./img/misc/mini-banners/zhongli_ei.webp",
-    "./img/misc/mini-banners/standard.webp",
-  ]);
-
-  const [mainBannersActive, setMainBanner] = useState([
-    "./img/banner/zhongli.webp",
-    "./img/banner/zhongli_ei.webp",
-    "./img/banner/standard.webp",
+  const [activeBannersAbbr, setActiveBannersAbbr] = useState([
+    "zhongli",
+    "zhongli_ei",
+    "standard",
   ]);
 
   const [activeBanners, setActiveBanners] = useState([
     {
-      bannerType: "char",
       banner: allBanners[0],
       rateFive: 0.006,
       rateFour: 0.051,
@@ -54,8 +43,7 @@ const Main = () => {
       pityFour: 0,
     },
     {
-      bannerType: "weapon",
-      banner: allBanners[1],
+      banner: allBanners[4],
       rateFive: 0.007,
       rateFour: 0.06,
       guaranteeFive: false,
@@ -64,7 +52,6 @@ const Main = () => {
       pityFour: 0,
     },
     {
-      bannerType: "standard",
       banner: allBanners[allBanners.length - 1],
       rateFive: 0.006,
       rateFour: 0.051,
@@ -88,95 +75,78 @@ const Main = () => {
   const [skipVideo, setSkipVideo] = useState(false);
   const [skipSingle, setSkipSingle] = useState(false);
 
-  const itemPath = (items) =>
-    multiPath + items[Math.floor(Math.random() * items.length)];
+  const [hasFive, setHasFive] = useState(false);
+  const [hasFour, setHasFour] = useState(false);
+
+  const randItem = (pool) => pool[Math.floor(Math.random() * pool.length)];
 
   const calcWish = () => {
     const wishChance = Math.random();
     const rateUp = Math.random() < 0.5 ? true : false;
-    const currentBanner = miniBannersActive[currentBannerIndex];
-    let wishPath;
+    const currentBanner = activeBannersAbbr[currentBannerIndex];
+    let wishItem;
     activeBanners.map((banner) => {
-      if (currentBanner.includes(banner.banner.name)) {
+      if (currentBanner === banner.banner.abbr) {
         // matches banner
         if (wishChance < banner.rateFive || banner.pityFive >= 89) {
           // 5 star
+          setHasFive(true);
           banner.pityFive = 0;
           banner.pityFour++;
-          if (!currentBanner.includes("standard")) {
+          if (!(currentBanner === "standard")) {
             // non-standard banner
             if (rateUp || banner.guaranteeFive) {
               // draw from rateUp
               banner.guaranteeFive = false;
-              wishPath = itemPath(banner.banner.rateUpFive);
+              wishItem = randItem(banner.banner.rateUpFive);
             } else {
               // drawing from normal pile
-              wishPath = itemPath(banner.banner.poolFive);
+              wishItem = currentBanner.includes("_ei")
+                ? randItem(banner.banner.poolFiveWeapon)
+                : randItem(banner.banner.poolFiveChar);
               banner.guaranteeFive = true;
             }
           } else {
             // standard banner
             if (wishChance < banner.rateFive / 2)
-              wishPath = itemPath(
-                banner.banner.poolFive.filter((item) => item.includes("Char_"))
-              );
-            else
-              wishPath = itemPath(
-                banner.banner.poolFive.filter((item) =>
-                  item.includes("Weapon_")
-                )
-              );
+              wishItem = randItem(banner.banner.poolFiveChar);
+            else wishItem = randItem(banner.banner.poolFiveWeapon);
           }
         } else if (wishChance < banner.rateFour || banner.pityFour >= 9) {
           // 4 star
+          setHasFour(true);
           banner.pityFour = 0;
           banner.pityFive++;
-          if (!currentBanner.includes("standard")) {
+          if (!(currentBanner === "standard")) {
             // not standard banner
             if (rateUp || banner.guaranteeFour) {
               // draw from rateUp
               banner.guaranteeFour = false;
-              wishPath = itemPath(banner.banner.rateUpFour);
+              wishItem = randItem(banner.banner.rateUpFour);
             } else {
               // draw from non rate up
               banner.guaranteeFour = true;
               if (wishChance < banner.rateFour / 2)
-                wishPath = itemPath(
-                  banner.banner.poolFour.filter((item) =>
-                    item.includes("Char_")
-                  )
-                );
-              else
-                wishPath = itemPath(
-                  banner.banner.poolFour.filter((item) =>
-                    item.includes("Weapon_")
-                  )
-                );
+                wishItem = randItem(banner.banner.poolFourChar);
+              else wishItem = randItem(banner.banner.poolFourWeapon);
             }
           } else {
             // standard banner
             if (wishChance < banner.rateFour / 2)
-              wishPath = itemPath(
-                banner.banner.poolFour.filter((item) => item.includes("Char_"))
-              );
-            else
-              wishPath = itemPath(
-                banner.banner.poolFour.filter((item) =>
-                  item.includes("Weapon_")
-                )
-              );
+              wishItem = randItem(banner.banner.poolFourChar);
+            else wishItem = randItem(banner.banner.poolFourWeapon);
           }
         } else {
           // 3 stars
           banner.pityFive++;
           banner.pityFour++;
-          wishPath = itemPath(baseThreeStar);
+          wishItem = randItem(baseThreeStar);
         }
       }
       return banner;
     });
-    handleHistory(wishPath);
-    return wishPath;
+    // handleHistory(wishPath);
+    return wishItem;
   };
 
   const handleWish = (wishes) => {
@@ -184,9 +154,9 @@ const Main = () => {
     else if (skipVideo && skipSingle) setContent("main");
     else setContent("single");
     let wishResults = [];
-    for (let i = 0; i < wishes; i++) {
-      wishResults.push(calcWish());
-    }
+    setHasFive(false);
+    setHasFour(false);
+    for (let i = 0; i < wishes; i++) wishResults.push(calcWish());
     setCurrentWish(wishResults);
     setState({
       ...state,
@@ -196,23 +166,23 @@ const Main = () => {
     });
   };
 
-  const handleHistory = (path) => {
-    const split = path.split("/")[path.split("/").length - 1].split("_");
-    const type = split[0];
-    let item = "";
-    for (let i = 1; i < split.length - 1; i++) {
-      item += split[i];
-      if (i < split.length - 2) item += " ";
-    }
-    const stars = split[split.length - 1].slice(0, 1);
-    history.push(new History(item, type, stars, new Date()));
-  };
+  // const handleHistory = (path) => {
+  //   const split = path.split("/")[path.split("/").length - 1].split("_");
+  //   const type = split[0];
+  //   let item = "";
+  //   for (let i = 1; i < split.length - 1; i++) {
+  //     item += split[i];
+  //     if (i < split.length - 2) item += " ";
+  //   }
+  //   const stars = split[split.length - 1].slice(0, 1);
+  //   history.push(new History(item, type, stars, new Date()));
+  // };
 
   const setActiveBanner = (index) => {
     if (animating) return;
     let edgeBanner =
-      (currentBannerIndex === 0 && index === mainBannersActive.length - 1) ||
-      (currentBannerIndex === mainBannersActive.length - 1 && index === 0)
+      (currentBannerIndex === 0 && index === activeBannersAbbr.length - 1) ||
+      (currentBannerIndex === activeBannersAbbr.length - 1 && index === 0)
         ? true
         : false;
     if (currentBannerIndex - index < 0) {
@@ -229,30 +199,19 @@ const Main = () => {
     setState({ ...state, isModalOpen: false });
   };
 
-  const convertedIndex = (array1, array2, index) => {
-    for (let i = 0; i < array1.length; i++) {
-      if (array1[i] === array2[index]) return i;
-    }
-  };
-
-  const changeBanner = (banner, index) => {
-    let miniBannersClone = miniBannersActive;
-    let mainBannersClone = mainBannersActive;
-    let currentBannersClone = activeBanners;
-    let nextBannerName = banner.split("/").pop().slice(0, -5);
-    const newIndex = convertedIndex(mainBannersActive, allMainBanners, index);
-    miniBannersClone[newIndex] = banner;
-    mainBannersClone[newIndex] = mainBannerPath + banner.split("/").pop();
-    if (currentBannersClone[newIndex].banner.name !== nextBannerName) {
-      allBanners.map((item) => {
-        if (item.name === nextBannerName)
-          currentBannersClone[newIndex].banner = item;
-        return item;
-      });
-    }
-    setMiniBannersActive([...miniBannersClone]);
-    setMainBanner([...mainBannersClone]);
-    setActiveBanners([...currentBannersClone]);
+  const changeBanner = (banner) => {
+    let bannersClone = activeBannersAbbr;
+    let activeBannersClone = activeBanners;
+    bannersClone[0] = banner;
+    bannersClone[1] = banner + "_ei";
+    allBanners.map((item) => {
+      if (item.abbr === banner) activeBannersClone[0].banner = item;
+      else if (item.abbr === banner + "_ei")
+        activeBannersClone[1].banner = item;
+      return item;
+    });
+    setActiveBannersAbbr(bannersClone);
+    setActiveBanners([...activeBannersClone]);
   };
 
   useEffect(() => {
@@ -270,14 +229,7 @@ const Main = () => {
       return (
         <>
           <NavBar />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
+          <section id="top-section">
             <h4
               style={{
                 position: "absolute",
@@ -286,70 +238,38 @@ const Main = () => {
             >
               {currentBannerEventName}
             </h4>
-            <MiniBanners
-              activeMinis={miniBannersActive}
-              setActive={setActiveBanner}
-              activeIndex={currentBannerIndex}
-              allMinis={allMiniBanners}
+            <DropdownBanner
               changeBanner={changeBanner}
-              convertedIndex={convertedIndex}
+              bannersActive={activeBannersAbbr}
             />
-            <Stats
-              currentBanner={activeBanners[currentBannerIndex]}
-              primos={state.primos}
-            />
-          </div>
-          <Suspense
-            fallback={
-              <div
-                style={{
-                  height: "570px",
-                }}
-              />
-            }
-          >
-            <MainBanner
+            <MiniBanners
+              bannersActive={activeBannersAbbr}
               setActive={setActiveBanner}
               activeIndex={currentBannerIndex}
-              activeMain={mainBannersActive}
-              mainBanners={mainBannersActive}
-              allMain={allMainBanners}
-              direction={direction}
-              convertedIndex={convertedIndex}
-              animating={animating}
-              setAnimating={setAnimating}
+              changeBanner={changeBanner}
             />
-          </Suspense>
-          <WishButtons onWish={handleWish} activeIndex={currentBannerIndex} />
-          <section id="checkbox-container">
-            <div className="checkbox">
-              <input
-                type="checkbox"
-                id="skip-video"
-                name="skip-video"
-                checked={skipVideo}
-                onChange={() => setSkipVideo(!skipVideo)}
-              />
-              <label htmlFor="skip-video" style={{ margin: "0.4rem" }}>
-                Skip Video
-              </label>
-            </div>
-            <div className="checkbox">
-              <input
-                type="checkbox"
-                id="skip-single"
-                name="skip-single"
-                checked={skipSingle}
-                onChange={() => setSkipSingle(!skipSingle)}
-              />
-              <label htmlFor="skip-single" style={{ margin: "0.4rem" }}>
-                Skip Single Items
-              </label>
-            </div>
+            <Stats primos={state.primos} />
+          </section>
+          <MainBanner
+            setActive={setActiveBanner}
+            activeIndex={currentBannerIndex}
+            banners={activeBannersAbbr}
+            direction={direction}
+            animating={animating}
+            setAnimating={setAnimating}
+          />
+          <section>
+            <WishButtons onWish={handleWish} activeIndex={currentBannerIndex} />
+            <SkipCheckboxes
+              skipVideo={skipVideo}
+              setSkipVideo={setSkipVideo}
+              skipSingle={skipSingle}
+              setSkipSingle={setSkipSingle}
+            />
           </section>
           <WishModal
             images={currentWish}
-            modal={state.isModalOpen}
+            modalState={state.isModalOpen}
             toggle={toggleModal}
             wishes={state.wishes}
           />
@@ -359,12 +279,12 @@ const Main = () => {
     } else
       return (
         <>
-          <input
-            className="skip-button"
-            type="image"
-            src="./img/misc/close.png"
+          <img
+            id="skip-button"
+            src="./assets/img/misc/close.webp"
             alt="skip"
             onClick={() => {
+              setAnimating(false);
               content === "video"
                 ? skipSingle
                   ? setContent("main")
@@ -373,15 +293,7 @@ const Main = () => {
             }}
           />
           {content === "video" ? (
-            <div
-              style={{
-                position: "absolute",
-                height: "100%",
-                width: "100%",
-                zIndex: "0",
-                backgroundColor: "white",
-              }}
-            >
+            <section id="video-container">
               <video
                 id="wish-video"
                 autoPlay
@@ -389,17 +301,42 @@ const Main = () => {
                   skipSingle ? setContent("main") : setContent("single")
                 }
               >
-                <source src="/img/misc/5_star.mp4" type="video/mp4" />
+                <source
+                  src={
+                    currentWish.length > 1
+                      ? hasFive
+                        ? "/assets/img/misc/5_star.mp4"
+                        : "/assets/img/misc/4_star.mp4"
+                      : hasFive
+                      ? "/assets/img/misc/5_star_single.mp4"
+                      : hasFour
+                      ? "/assets/img/misc/4_star_single.mp4"
+                      : "/assets/img/misc/3_star.mp4"
+                  }
+                  type="video/mp4"
+                />
               </video>
-            </div>
+            </section>
           ) : (
-            <WishSingle currentWish={currentWish} setContent={setContent} />
+            <WishSingle
+              currentWish={currentWish}
+              setContent={setContent}
+              animating={animating}
+              setAnimating={setAnimating}
+            />
           )}
         </>
       );
   };
 
-  return <div className="App">{handleContent()}</div>;
+  return (
+    <div className="App">
+      {
+        handleContent()
+        // <div id="test"></div>
+      }{" "}
+    </div>
+  );
 };
 
 export default Main;

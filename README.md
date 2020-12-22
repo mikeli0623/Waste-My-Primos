@@ -1,4 +1,4 @@
-# Waste-My-Primos
+# Waste My Primos
 Genshin Impact Wish Simulator
 
 # What is This?

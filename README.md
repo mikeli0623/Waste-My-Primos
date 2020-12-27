@@ -1,4 +1,4 @@
-# Waste-My-Primos
+# Waste My Primos
 Genshin Impact Wish Simulator
 
 # What is This?
@@ -10,7 +10,7 @@ dakdadldma
 - npm run
 
 # Demo
-https://genshin-impact-gacha-sim-46150.web.app/
+https://wastemyprimos.web.app/
 
 # To Do
 - make better

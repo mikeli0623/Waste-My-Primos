@@ -7,7 +7,7 @@ dakdadldma
 # How to Use
 - git clone
 - npm install
-- npm run
+- npm start
 
 # Demo
 https://wastemyprimos.web.app/

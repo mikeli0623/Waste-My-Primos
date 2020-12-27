@@ -1,4 +1,14 @@
 [
+	{
+        "name": "Albedo",
+        "vision": "Geo",
+        "weapon": "Sword",
+        "rarity": 5,
+        "description": "",
+        "constellations": [],
+        "gachaSingle": "./assets/img/gacha/single/albedo.webp",
+        "gachaMulti": "./assets/img/gacha/multi/albedo.webp"
+    },
     {
         "name": "Amber",
         "vision": "Pyro",

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { allBannersAbbr, json } from "../classes/Constants";
 import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from "reactstrap";
 
-const MiniTooltip = ({ miniBanners, bannersActive, onSelect }) => {
+const MiniTooltip = ({ miniBanners, bannersActive, onSelect, dropOpen }) => {
   const [toolTip, setToolTip] = useState({});
 
   const toggle = (targetName) => {
@@ -34,7 +34,7 @@ const MiniTooltip = ({ miniBanners, bannersActive, onSelect }) => {
         return (
           <div key={miniBanner + index}>
             <img
-              src={json.getMini(miniBanner)}
+              src={dropOpen ? json.getMini(miniBanner) : ""}
               alt={miniBanner + "-mini-banner"}
               id={`mini-${index}`}
               onClick={() => onSelect(miniBanner)}
@@ -86,6 +86,7 @@ const DropdownBanner = ({ changeBanner, bannersActive }) => {
             })}
             onSelect={toggleDrop}
             bannersActive={bannersActive}
+            dropOpen={dropOpen}
           />
         </DropdownMenu>
       </Dropdown>

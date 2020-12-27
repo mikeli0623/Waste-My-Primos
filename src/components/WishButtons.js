@@ -4,27 +4,29 @@ const WishButtons = ({ onWish, activeIndex }) => {
   return (
     <div className="wish-buttons">
       <img
-        className={activeIndex === 2 ? "transparent" : ""}
-        src="./assets/img/misc/int_1.webp"
-        alt="x1 Wish"
+        src={
+          activeIndex === 2
+            ? "./assets/img/misc/acq_1.webp"
+            : "./assets/img/misc/int_1.webp"
+        }
+        alt={
+          activeIndex === 2
+            ? "./assets/img/misc/acq_1.webp"
+            : "./assets/img/misc/int_1.webp"
+        }
         onClick={() => onWish(1)}
       />
       <img
-        className={activeIndex === 2 ? "" : "transparent"}
-        src="./assets/img/misc/acq_1.webp"
-        alt="x1 Wish"
-        onClick={() => onWish(1)}
-      />
-      <img
-        className={activeIndex === 2 ? "transparent" : ""}
-        src="./assets/img/misc/int_10.webp"
-        alt="x10 Wish"
-        onClick={() => onWish(10)}
-      />
-      <img
-        className={activeIndex === 2 ? "" : "transparent"}
-        src="./assets/img/misc/acq_10.webp"
-        alt="x10 Wish"
+        src={
+          activeIndex === 2
+            ? "./assets/img/misc/acq_10.webp"
+            : "./assets/img/misc/int_10.webp"
+        }
+        alt={
+          activeIndex === 2
+            ? "./assets/img/misc/acq_10.webp"
+            : "./assets/img/misc/int_10.webp"
+        }
         onClick={() => onWish(10)}
       />
     </div>

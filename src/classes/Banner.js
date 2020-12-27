@@ -18,6 +18,46 @@ class Banner {
   }
 }
 
+const albedoBanner = new Banner(
+  "albedo",
+  ["albedo"],
+  ["bennett", "fischl", "sucrose"],
+  ["diluc", "jean", "keqing", "mona", "qiqi"],
+  [],
+  [
+    "xinyan",
+    "diona",
+    "chongyun",
+    "beidou",
+    "ningguang",
+    "noelle",
+    "barbara",
+    "xingqiu",
+    "xiangling",
+    "razor",
+  ],
+  [
+    "rust",
+    "sacrificial_bow",
+    "the_stringless",
+    "favonius_warbow",
+    "eye_of_perception",
+    "sacrificial_fragments",
+    "the_widsith",
+    "favonius_codex",
+    "favonius_lance",
+    "dragon's_bane",
+    "rainslasher",
+    "sacrificial_greatsword",
+    "the_bell",
+    "favonius_greatsword",
+    "lion's_roar",
+    "sacrificial_sword",
+    "the_flute",
+    "favonius_sword",
+  ]
+);
+
 const zhongliBanner = new Banner(
   "zhongli",
   ["zhongli"],
@@ -169,6 +209,60 @@ const ventiBanner = new Banner(
     "the_flute",
     "lion's_roar",
     "favonius_sword",
+  ]
+);
+
+const albedoEiBanner = new Banner(
+  "albedo_ei",
+  ["skyward_atlas", "summit_shaper"],
+  [
+    "the_stringless",
+    "sacrificial_fragments",
+    "favonius_lance",
+    "favonius_greatsword",
+    "favonius_sword",
+  ],
+  [],
+  [
+    "amos'_bow",
+    "skyward_harp",
+    "lost_prayer_to_the_sacred_winds",
+    "primordial_jade_winged-spear",
+    "skyward_spine",
+    "wolf's_gravestone",
+    "skyward_pride",
+    "skyward_blade",
+    "aquila_favonia",
+  ],
+  [
+    "xinyan",
+    "sucrose",
+    "diona",
+    "chongyun",
+    "noelle",
+    "bennett",
+    "fischl",
+    "ningguang",
+    "xingqiu",
+    "beidou",
+    "xiangling",
+    "razor",
+    "barbara",
+  ],
+  [
+    "rust",
+    "sacrificial_bow",
+    "favonius_warbow",
+    "eye_of_perception",
+    "the_widsith",
+    "favonius_codex",
+    "dragon's_bane",
+    "rainslasher",
+    "sacrificial_greatsword",
+    "the_bell",
+    "lion's_roar",
+    "sacrificial_sword",
+    "the_flute",
   ]
 );
 
@@ -423,10 +517,12 @@ const standardBanner = new Banner(
 );
 
 export const allBanners = [
+  albedoBanner,
   zhongliBanner,
   childeBanner,
   kleeBanner,
   ventiBanner,
+  albedoEiBanner,
   zhongliEiBanner,
   childeEiBanner,
   kleeEiBanner,

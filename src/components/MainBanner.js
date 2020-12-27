@@ -3,8 +3,6 @@ import { allBannersAbbr } from "../classes/Constants";
 import Carousel from "./Carousel/Carousel";
 import CarouselItem from "./Carousel/CarouselItem";
 import parseJSON from "../classes/parseJSON";
-import { CarouselControl } from "reactstrap";
-import LazyLoad from "react-lazyload";
 
 const json = new parseJSON();
 
@@ -15,6 +13,7 @@ const MainBanner = ({
   direction,
   animating,
   setAnimating,
+  prevBanner,
 }) => {
   const next = (banners) => {
     if (animating) return;
@@ -35,39 +34,48 @@ const MainBanner = ({
         onExited={() => setAnimating(false)}
         key={banner}
       >
-        {/* <LazyLoad height={570}> */}
         <img
-          className={`main-banner ${
-            banners.includes(banner) ? "" : "transparent"
-          }`}
+          className={`main-banner`}
           height="570px"
-          src={json.getMain(banner)}
+          src={
+            banners.includes(banner) || banner === prevBanner
+              ? json.getMain(banner)
+              : ""
+          }
           alt={banner}
         />
-        {/* </LazyLoad> */}
       </CarouselItem>
     );
   });
 
+  const arrows = (prev) => {
+    return (
+      <div
+        id={`carousel-control-${prev ? "prev" : "next"}`}
+        style={{
+          transform: `${prev ? "rotate(180deg)" : ""}`,
+          backgroundImage: "url(/assets/img/misc/arrow.webp)",
+          height: "44px",
+          width: "32px",
+        }}
+        onClick={() => (prev ? previous(banners) : next(banners))}
+      />
+    );
+  };
+
   return (
-    <Carousel
-      activeIndex={allBannersAbbr.indexOf(banners[activeIndex])}
-      next={next}
-      previous={previous}
-      direction={direction}
-    >
-      {slides}
-      <CarouselControl
-        direction="prev"
-        directionText="Previous"
-        onClickHandler={() => previous(banners)}
-      />
-      <CarouselControl
-        direction="next"
-        directionText="Next"
-        onClickHandler={() => next(banners)}
-      />
-    </Carousel>
+    <section id="main-banner-section">
+      {arrows(true)}
+      <Carousel
+        activeIndex={allBannersAbbr.indexOf(banners[activeIndex])}
+        next={next}
+        previous={previous}
+        direction={direction}
+      >
+        {slides}
+      </Carousel>
+      {arrows(false)}
+    </section>
   );
 };
 

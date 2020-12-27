@@ -44,6 +44,39 @@ input {
   text-align: center;
 }
 
+.transparent {
+  display: none;
+}
+
+#top-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.drop-down {
+  position: absolute;
+  margin-right: 45%;
+}
+
+.drop-down img {
+  cursor: pointer;
+  height: 10vmin;
+  transition: all 0.1s;
+}
+
+.drop-down img:hover {
+  transform: scale(0.95);
+}
+
+#mini-banners {
+  width: 35%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 0.5%;
+}
+
 .mini-banner {
   transform: scale(0.9);
   transition: transform ease-in 0.1s;
@@ -57,32 +90,29 @@ input {
   transform: scale(1);
 }
 
-.transparent {
-  display: none;
-}
-
-#top-section {
+#main-banner-section {
   display: flex;
-  justify-content: center;
   flex-direction: row;
+  justify-content: space-around;
   align-items: center;
 }
 
-.mini-banners {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
+#carousel-control-prev {
+  z-index: 1;
+  position: absolute;
+  margin-left: -80%;
+  transition: all 0.2s;
 }
 
-.mini-banners .pair {
-  margin-bottom: 3%;
-  margin-left: 5%;
+#carousel-control-next {
+  position: absolute;
+  margin-left: 80%;
+  transition: all 0.2s;
 }
 
-.mini-banners .pair img {
-  max-width: 30vw;
-  max-height: 30vh;
+#carousel-control-prev:active,
+#carousel-control-next:active {
+  filter: brightness(75%);
 }
 
 .main-banner {
@@ -100,27 +130,12 @@ input {
 
 .wish-buttons img {
   margin-right: 10px;
+  height: 82px;
   width: 344px;
-  max-width: 30vw;
 }
 
-.wish-modal .modal-content {
+.modal-dialog .modal-content {
   background-color: rgba(38, 37, 49, 0.5);
-}
-
-.drop-down {
-  position: absolute;
-  margin-right: 45%;
-}
-
-.drop-down img {
-  cursor: pointer;
-  height: 10vmin;
-  transition: all 0.1s;
-}
-
-.drop-down img:hover {
-  transform: scale(0.95);
 }
 
 .navbar {
@@ -164,12 +179,26 @@ input {
 }
 
 #skip-button {
+  display: flex;
+  align-items: center;
   position: absolute;
   top: 5%;
   left: 90%;
-  z-index: 1;
+  z-index: 1052;
+  height: 55px;
+  width: 55px;
+  background-color: #ebe7d6;
   border-radius: 100%;
-  border: 5px solid #b5a4a4;
+  border: 5px solid rgb(173, 181, 191);
+  transition: all 0.2s ease-out;
+}
+
+#skip-button-crosses {
+  height: 55px;
+  width: 55px;
+  background-size: "28px  28px";
+  background-position: center;
+  background-repeat: no-repeat;
   transition: all 0.2s ease-out;
 }
 
@@ -178,14 +207,19 @@ input {
 }
 
 #skip-button:active {
-  transform: scale(0.85);
+  transform: scale(0.9);
+  border: 5px solid rgb(173, 181, 191);
+}
+
+#skip-button:active div {
+  filter: brightness(1000%);
 }
 
 #video-container {
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: "0";
+  z-index: 1051;
   background-color: white;
 }
 
@@ -203,6 +237,7 @@ input {
   width: 100%;
   background-color: rgba(38, 37, 49, 0.9);
   overflow: hidden;
+  z-index: 1051;
 }
 
 .single-pair img {
@@ -379,7 +414,28 @@ input {
 
 #test:hover {
   box-shadow: 0 0 0 200px rgb(54, 70, 134, 0.1);
-  /* 0 0 0 100px rgb(83, 224, 83), 0 0 0 120px rgb(82, 226, 82),
-    0 0 0 200px rgb(37, 214, 37), 0 0 0 400px rgb(27, 165, 27),
-    0 0 0 450px rgb(63, 235, 63); */
+}
+
+.react-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid;
+  border-bottom-color: transparent !important;
+  border-radius: 50%;
+  animation: react-infinite-spinner linear 1.2s infinite;
+}
+
+@keyframes react-infinite-spinner {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

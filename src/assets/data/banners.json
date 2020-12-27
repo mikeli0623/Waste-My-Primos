@@ -1,4 +1,16 @@
-[
+[	{
+        "abbr": "albedo",
+        "title": "Sectretum Secretorum",
+        "mainBanner": "./assets/img/banner/albedo.webp",
+        "miniBanner": "./assets/img/misc/mini-banners/albedo.webp",
+		"miniActive": "./assets/img/misc/mini-banners/albedo_active.webp" 
+	},
+    {
+        "abbr": "albedo_ei",
+        "mainBanner": "./assets/img/banner/albedo_ei.webp",
+        "miniBanner": "./assets/img/misc/mini-banners/albedo_ei.webp",
+		"miniActive": "./assets/img/misc/mini-banners/albedo_ei_active.webp" 
+	},
     {
         "abbr": "zhongli",
         "title": "Gentry of Hermitage",

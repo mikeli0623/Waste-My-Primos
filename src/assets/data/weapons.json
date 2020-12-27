@@ -474,5 +474,12 @@
         "rarity": 5,
         "gachaSingle": "./assets/img/gacha/single/the_unforged.webp",
         "gachaMulti": "./assets/img/gacha/multi/the_unforged.webp"
+    },
+	{
+        "name": "Summit Shaper",
+        "type": "Sword",
+        "rarity": 5,
+        "gachaSingle": "./assets/img/gacha/single/summit_shaper.webp",
+        "gachaMulti": "./assets/img/gacha/multi/summit_shaper.webp"
     }
 ]

@@ -1,60 +1,70 @@
-import React, { useState } from "react";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import React from "react";
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
 import { NavLink as RRNavLink } from "react-router-dom";
 
-const NavBar = () => {
-  const [collapsed, setCollapsed] = useState(true);
-
-  const toggleNavbar = () => setCollapsed(!collapsed);
-
+const NavBar = ({ resize }) => {
   return (
-    <div className="navbar">
-      <Navbar color="dark" dark>
+    <section className="navbar">
+      <Navbar
+        color="dark"
+        dark
+        expand
+        style={{
+          padding:
+            resize.windowWidth <= 425
+              ? ""
+              : `${resize.getWidth(6)}px ${resize.getHeight(16, 8)}px`,
+        }}
+      >
         <NavbarBrand
+          className="nav-title"
           tag={RRNavLink}
           exact
           to="/"
-          style={{ color: "antiquewhite" }}
+          style={{
+            color: "antiquewhite",
+            fontSize:
+              resize.windowWidth <= 425 ? "16px" : `${resize.getWidth(24)}px`,
+          }}
         >
           WASTE MY PRIMOS
         </NavbarBrand>
-        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
-        {/* <Collapse isOpen={!collapsed} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink
-                onClick={toggleNavbar}
-                tag={RRNavLink}
-                exact
-                to="/myCollection"
-                activeClassName="active"
-              >
-                My Collection
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                onClick={toggleNavbar}
-                tag={RRNavLink}
-                exact
-                to="/login"
-                activeClassName="active"
-              >
-                Login
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse> */}
+        <Nav navbar>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              exact
+              to="/myCollection"
+              activeClassName="active"
+              style={{
+                fontSize:
+                  resize.windowWidth <= 425
+                    ? "10px"
+                    : `${resize.getWidth(18)}px`,
+              }}
+            >
+              My Collection
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              exact
+              to="/login"
+              activeClassName="active"
+              style={{
+                fontSize:
+                  resize.windowWidth <= 425
+                    ? "10px"
+                    : `${resize.getWidth(18)}px`,
+              }}
+            >
+              Login
+            </NavLink>
+          </NavItem>
+        </Nav>
       </Navbar>
-    </div>
+    </section>
   );
 };
 export default NavBar;

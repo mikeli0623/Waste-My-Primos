@@ -1,8 +1,13 @@
-import { baseThreeStar } from "../classes/Constants";
+import { baseThreeStar } from "./Constants";
 
 const randItem = (pool) => pool[Math.floor(Math.random() * pool.length)];
 
-const CalcWish = (currentBanner, activeBanners, setHasFive, setHasFour) => {
+export const CalcWish = (
+  currentBanner,
+  activeBanners,
+  setHasFive,
+  setHasFour
+) => {
   const wishChance = Math.random();
   const rateUp = Math.random() < 0.5 ? true : false;
   let wishItem;
@@ -68,5 +73,3 @@ const CalcWish = (currentBanner, activeBanners, setHasFive, setHasFour) => {
   });
   return wishItem;
 };
-
-export default CalcWish;

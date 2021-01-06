@@ -1,34 +1,35 @@
 import React from "react";
 import { json } from "../classes/Constants";
 
-const MiniBanners = ({ bannersActive, setActive, activeIndex }) => {
+const MiniBanners = ({ bannersActive, setActive, activeIndex, resize }) => {
   const selected = (index) =>
     bannersActive.indexOf(bannersActive[activeIndex]) === index;
 
-  const minis = bannersActive.map((miniBanner, index) => {
+  const minis = bannersActive.map((banner, index) => {
     return (
-      <>
-        <img
-          className={`mini-banner ${selected(index) ? "selected" : ""}`}
-          src={
-            selected(index)
-              ? json.getMiniActive(miniBanner)
-              : json.getMini(miniBanner)
-          }
-          alt={
-            selected(index)
-              ? json.getMiniActive(miniBanner)
-              : json.getMini(miniBanner)
-          }
-          height="95px"
-          width="188px"
-          onClick={() => setActive(index)}
-        />
-      </>
+      <img
+        key={index}
+        className={`${
+          selected(index) ? "mini-banner selected" : "mini-banner"
+        }`}
+        src={
+          selected(index) ? json.getMiniActive(banner) : json.getMini(banner)
+        }
+        alt={
+          selected(index) ? json.getMiniActive(banner) : json.getMini(banner)
+        }
+        height={`${resize.getHeight(95, 188)}`}
+        width={`${resize.getWidth(188)}`}
+        onClick={() => setActive(index)}
+      />
     );
   });
 
-  return <div id="mini-banners">{minis}</div>;
+  return (
+    <div id="mini-banners" style={{ width: `${resize.getWidth(700)}px` }}>
+      {minis}
+    </div>
+  );
 };
 
 export default MiniBanners;

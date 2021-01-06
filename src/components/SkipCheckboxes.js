@@ -1,36 +1,27 @@
 import React from "react";
 
-const SkipCheckboxes = ({
-  skipVideo,
-  setSkipVideo,
-  skipSingle,
-  setSkipSingle,
-}) => {
+const SkipCheckboxes = ({ props, setState }) => {
   return (
-    <section id="checkbox-container">
+    <div id="checkbox-container">
       <div className="checkbox">
         <input
           type="checkbox"
           id="skip-video"
-          checked={skipVideo}
-          onChange={() => setSkipVideo(!skipVideo)}
+          checked={props.skipVideo}
+          onChange={() => setState({ ...props, skipVideo: !props.skipVideo })}
         />
-        <label htmlFor="skip-video" style={{ margin: "0.4rem" }}>
-          Skip Video
-        </label>
+        <label htmlFor="skip-video">Skip Video</label>
       </div>
       <div className="checkbox">
         <input
           type="checkbox"
           id="skip-single"
-          checked={skipSingle}
-          onChange={() => setSkipSingle(!skipSingle)}
+          checked={props.skipSingle}
+          onChange={() => setState({ ...props, skipSingle: !props.skipSingle })}
         />
-        <label htmlFor="skip-single" style={{ margin: "0.4rem" }}>
-          Skip Single Items
-        </label>
+        <label htmlFor="skip-single">Skip Single Items</label>
       </div>
-    </section>
+    </div>
   );
 };
 

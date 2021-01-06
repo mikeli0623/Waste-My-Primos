@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { allBannersAbbr, json } from "../classes/Constants";
 import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from "reactstrap";
 
-const MiniTooltip = ({ miniBanners, bannersActive, onSelect, dropOpen }) => {
+const MiniTooltip = ({
+  miniBanner,
+  index,
+  onSelect,
+  dropOpen,
+  animating,
+  resize,
+}) => {
   const [toolTip, setToolTip] = useState({});
 
   const toggle = (targetName) => {
@@ -29,33 +36,30 @@ const MiniTooltip = ({ miniBanners, bannersActive, onSelect, dropOpen }) => {
 
   return (
     <>
-      {miniBanners.map((miniBanner, index) => {
-        if (bannersActive.includes(miniBanner)) return null;
-        return (
-          <div key={miniBanner + index}>
-            <img
-              src={dropOpen ? json.getMini(miniBanner) : ""}
-              alt={miniBanner + "-mini-banner"}
-              id={`mini-${index}`}
-              onClick={() => onSelect(miniBanner)}
-            />
-            <Tooltip
-              placement="right"
-              isOpen={isToolTipOpen(`mini-${index}`)}
-              target={`mini-${index}`}
-              toggle={() => toggle(`mini-${index}`)}
-              style={{ backgroundColor: "#282c34" }}
-            >
-              {json.getTitle(miniBanner)}
-            </Tooltip>
-          </div>
-        );
-      })}
+      <img
+        src={dropOpen ? json.getMini(miniBanner) : ""}
+        alt={miniBanner + "-mini-banner"}
+        id={`mini-${index}`}
+        onClick={() => (!animating ? onSelect(miniBanner) : undefined)}
+        // height={`${resize.getHeight(88, 175)}`}
+        // width={`${resize.getWidth(175)}`}
+      />
+      <Tooltip
+        placement="right"
+        isOpen={isToolTipOpen(`mini-${index}`)}
+        target={`mini-${index}`}
+        toggle={() => toggle(`mini-${index}`)}
+        style={{
+          backgroundColor: "#282c34",
+          color: "antiquewhite",
+        }}
+      >
+        {json.getTitle(miniBanner)}
+      </Tooltip>
     </>
   );
 };
-
-const DropdownBanner = ({ changeBanner, bannersActive }) => {
+const DropdownBanner = ({ changeBanner, bannersActive, animating, resize }) => {
   const [dropOpen, setDropOpen] = useState(false);
 
   const toggleDrop = (miniBanner) => {
@@ -64,7 +68,12 @@ const DropdownBanner = ({ changeBanner, bannersActive }) => {
   };
 
   return (
-    <div className="drop-down">
+    <div
+      className="drop-down"
+      style={{
+        width: `${resize.getWidth(270)}px`,
+      }}
+    >
       <Dropdown isOpen={dropOpen} toggle={() => toggleDrop(null)} size="sm">
         <DropdownToggle
           tag="div"
@@ -72,22 +81,37 @@ const DropdownBanner = ({ changeBanner, bannersActive }) => {
           aria-expanded={dropOpen}
           className="custom-drop"
           style={{
-            height: "30px",
-            width: "120px",
-            backgroundImage: "url(./assets/img/misc/theme.webp)",
-            backgroundSize: "120px  30px",
-            backgroundRepeat: "no-repeat",
+            height: `${resize.getHeight(30, 120)}px`,
+            width: `${resize.getWidth(120)}px`,
+            fontSize: `${resize.getWidth(14)}px`,
+            lineHeight: `${resize.getWidth(27)}px`,
           }}
-        />
-        <DropdownMenu style={{ backgroundColor: "rgba(50, 50, 50, 0.5)" }}>
-          <MiniTooltip
-            miniBanners={allBannersAbbr.filter((banner) => {
-              return !banner.includes("_ei");
+        >
+          Theme
+        </DropdownToggle>
+        <DropdownMenu
+          style={{
+            backgroundColor: "rgba(50, 50, 50, 0.5)",
+          }}
+        >
+          {allBannersAbbr
+            .filter((banner) => {
+              return !banner.includes("_ei") && !bannersActive.includes(banner);
+            })
+            .map((miniBanner, index) => {
+              return (
+                <MiniTooltip
+                  key={index}
+                  miniBanner={miniBanner}
+                  index={index}
+                  onSelect={toggleDrop}
+                  bannersActive={bannersActive}
+                  dropOpen={dropOpen}
+                  animating={animating}
+                  resize={resize}
+                />
+              );
             })}
-            onSelect={toggleDrop}
-            bannersActive={bannersActive}
-            dropOpen={dropOpen}
-          />
         </DropdownMenu>
       </Dropdown>
     </div>

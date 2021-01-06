@@ -3,7 +3,7 @@ import parseJSON from "../classes/parseJSON";
 import { Modal, ModalBody } from "reactstrap";
 
 const json = new parseJSON();
-const WishModal = ({ images, modalState, toggle, wishes, isMain, skipAll }) => {
+const WishModal = ({ props, toggle, isMain, skipAll, resize }) => {
   const sortWishes = (results) => {
     return results.sort((a, b) => {
       let starA = json.getStars(a) * 100;
@@ -15,7 +15,7 @@ const WishModal = ({ images, modalState, toggle, wishes, isMain, skipAll }) => {
   };
 
   const imagePrinter = () => {
-    let imagesClone = sortWishes([...images]);
+    let imagesClone = sortWishes([...props.currentWish]);
     return imagesClone.map((image, index) => {
       return (
         <div
@@ -23,9 +23,12 @@ const WishModal = ({ images, modalState, toggle, wishes, isMain, skipAll }) => {
           className="wish-result"
           style={{
             backgroundImage: `url("${json.getMulti(image)}")`,
-            height: "800px",
-            width: "107px",
-            backgroundSize: "107px  800px",
+            height: `${isMain ? resize.getHeight(800, 106) : 0}px`,
+            width: `${isMain ? resize.getWidth(106) : 0}px`,
+            backgroundSize: `${resize.getWidth(106)}px ${resize.getHeight(
+              800,
+              106
+            )}px`,
             backgroundRepeat: "no-repeat",
           }}
         ></div>
@@ -35,17 +38,23 @@ const WishModal = ({ images, modalState, toggle, wishes, isMain, skipAll }) => {
 
   return (
     <Modal
-      isOpen={modalState}
+      isOpen={props.isModalOpen}
       toggle={toggle}
       centered
       style={{
-        maxWidth: "1920px",
-        width: wishes === 10 ? `${107 * 10 + 50}px` : `${107 + 50}px`,
+        maxWidth: `${
+          props.wishes === 10 ? resize.getWidth(1170) : resize.getWidth(220)
+        }px`,
+        width: props.wishes === 10 ? `${106 * 10 + 50}px` : `${106 + 50}px`,
         transform: `${
-          skipAll ? "" : isMain ? "translateY(0)" : "translateY(-50px)"
+          skipAll
+            ? ""
+            : isMain
+            ? "translateY(0)"
+            : `translateY(-${resize.getWidth(50)}px)`
         }`,
         opacity: `${isMain ? "1" : "0"}`,
-        transition: `${isMain ? "all 0.5s ease-out" : ""}`,
+        transition: `${isMain ? "all 0.5s ease-out" : "none"}`,
       }}
     >
       <ModalBody

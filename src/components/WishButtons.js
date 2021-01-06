@@ -1,6 +1,6 @@
 import React from "react";
 
-const WishButtons = ({ onWish, activeIndex }) => {
+const WishButtons = ({ onWish, activeIndex, resize }) => {
   return (
     <div className="wish-buttons">
       <img
@@ -15,6 +15,11 @@ const WishButtons = ({ onWish, activeIndex }) => {
             : "./assets/img/misc/int_1.webp"
         }
         onClick={() => onWish(1)}
+        height={`${resize.getHeight(75, 293)}`}
+        width={`${resize.getWidth(293)}`}
+        style={{
+          marginRight: `${resize.getWidth(15)}px`,
+        }}
       />
       <img
         src={
@@ -24,10 +29,12 @@ const WishButtons = ({ onWish, activeIndex }) => {
         }
         alt={
           activeIndex === 2
-            ? "./assets/img/misc/acq_10.webp"
-            : "./assets/img/misc/int_10.webp"
+            ? "./assets/img/misc/acq_1.webp"
+            : "./assets/img/misc/int_1.webp"
         }
         onClick={() => onWish(10)}
+        height={`${resize.getHeight(75, 293)}`}
+        width={`${resize.getWidth(293)}`}
       />
     </div>
   );

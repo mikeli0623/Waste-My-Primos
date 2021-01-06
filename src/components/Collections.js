@@ -1,93 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
 const Collections = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const getWidth = (width) =>
+    window.innerWidth > 1280 ? width : windowWidth / (1280 / width);
+
+  const getHeight = (height, width) =>
+    window.innerWidth > 1280 ? height : (getWidth(width) * height) / width;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    // <div style={{ display: "flex", flexDirection: "column" }}>
-    //   <div style={{ marginTop: "1%" }}>
-    //     <p>My Collection</p>
-    //     <div
-    //       style={{
-    //         width: "1000px",
-    //         height: "500px",
-    //         backgroundColor: "black",
-    //         margin: "auto",
-    //         display: "flex",
-    //         flexDirection: "row",
-    //       }}
-    //     >
-    //       <div
-    //         style={{ display: "flex", flexDirection: "column", margin: "auto" }}
-    //       >
-    //         <p>Characters</p>
-    //         <div
-    //           style={{
-    //             width: "400px",
-    //             height: "400px",
-    //             backgroundColor: "darkblue",
-    //             margin: "auto",
-    //           }}
-    //         ></div>
-    //       </div>
-    //       <div
-    //         style={{ display: "flex", flexDirection: "column", margin: "auto" }}
-    //       >
-    //         <p>Weapons</p>
-    //         <div
-    //           style={{
-    //             width: "400px",
-    //             height: "400px",
-    //             backgroundColor: "darkblue",
-    //             margin: "auto",
-    //           }}
-    //         ></div>
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <div style={{ marginTop: "1%" }}>
-    //     <p>Locked Items</p>
-    //     <div
-    //       style={{
-    //         width: "1000px",
-    //         height: "500px",
-    //         backgroundColor: "black",
-    //         margin: "auto",
-    //         display: "flex",
-    //         flexDirection: "row",
-    //       }}
-    //     >
-    //       <div
-    //         style={{ display: "flex", flexDirection: "column", margin: "auto" }}
-    //       >
-    //         <p>Characters</p>
-    //         <div
-    //           style={{
-    //             width: "400px",
-    //             height: "400px",
-    //             backgroundColor: "darkblue",
-    //             margin: "auto",
-    //           }}
-    //         ></div>
-    //       </div>
-    //       <div
-    //         style={{ display: "flex", flexDirection: "column", margin: "auto" }}
-    //       >
-    //         <p>Weapons</p>
-    //         <div
-    //           style={{
-    //             width: "400px",
-    //             height: "400px",
-    //             backgroundColor: "darkblue",
-    //             margin: "auto",
-    //           }}
-    //         ></div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-    <>
-      <NavBar />
+    <div id="collections">
+      <NavBar resize={{ getWidth, getHeight, windowWidth }} />
       <div
         style={{
           display: "flex",
@@ -101,7 +38,7 @@ const Collections = () => {
         </h1>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

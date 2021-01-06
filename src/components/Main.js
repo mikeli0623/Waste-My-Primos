@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import DropdownBanner from "./DropdownBanner";
 import MainBanner from "./MainBanner";
 import MiniBanners from "./MiniBanners";
 import WishButtons from "./WishButtons";
+import SkipButton from "./SkipButton";
 import WishModal from "./WishModal";
 import WishSingle from "./WishSingle";
 import SkipCheckboxes from "./SkipCheckboxes";
 import Stats from "./Stats";
 import Footer from "./Footer";
+import Example from "./Example";
+import { CalcWish } from "../classes/CalcWish";
 import { allBanners } from "../classes/Banner";
-import { CalcWish } from "../classes/Constants";
+import WishVideo from "./WishVideo";
 
 const Main = () => {
   const [state, setState] = useState({
     isModalOpen: false,
     wishes: 0,
     primos: 0,
+    currentWish: [],
+    animating: false,
+    skipVideo: false,
+    skipSingle: false,
   });
+
+  const [hasFive, setHasFive] = useState(false);
+  const [hasFour, setHasFour] = useState(false);
 
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
-  const [currentWish, setCurrentWish] = useState([]);
-
-  const [activeBannersAbbr, setActiveBannersAbbr] = useState([
+  const [activeBanners, setActiveBanners] = useState([
     "albedo",
     "albedo_ei",
     "standard",
   ]);
 
-  const [activeBanners, setActiveBanners] = useState([
+  const [prevBanner, setPrevBanner] = useState(undefined);
+
+  const [bannerContent, setBannerContent] = useState([
     {
       banner: allBanners[0],
       rateFive: 0.006,
@@ -61,46 +71,34 @@ const Main = () => {
 
   const [direction, setDirection] = useState("right");
 
-  const [animating, setAnimating] = useState(false);
-
   const [content, setContent] = useState("main");
 
-  const [skipVideo, setSkipVideo] = useState(false);
-  const [skipSingle, setSkipSingle] = useState(false);
-
-  const [hasFive, setHasFive] = useState(false);
-  const [hasFour, setHasFour] = useState(false);
-
-  const [currentBanner, setCurrentBanner] = useState(
-    activeBannersAbbr[currentBannerIndex]
-  );
-  const [prevBanner, setPrevBanner] = useState(undefined);
-
   const handleWish = (wishes) => {
-    if (!skipVideo) setContent("video");
-    else if (skipVideo && skipSingle) setContent("main");
+    if (!state.skipVideo) setContent("video");
+    else if (state.skipVideo && state.skipSingle) setContent("main");
     else setContent("single");
     let wishResults = [];
+    const currentBanner = activeBanners[currentBannerIndex];
     setHasFive(false);
     setHasFour(false);
     for (let i = 0; i < wishes; i++)
       wishResults.push(
-        CalcWish(currentBanner, activeBanners, setHasFive, setHasFour)
+        CalcWish(currentBanner, bannerContent, setHasFive, setHasFour)
       );
-    setCurrentWish(wishResults);
     setState({
       ...state,
       isModalOpen: true,
       wishes: wishes,
       primos: state.primos + wishes * 160,
+      currentWish: wishResults,
     });
   };
 
   const setActiveBanner = (index) => {
-    if (animating) return;
+    if (state.animating) return;
     let edgeBanner =
-      (currentBannerIndex === 0 && index === activeBannersAbbr.length - 1) ||
-      (currentBannerIndex === activeBannersAbbr.length - 1 && index === 0)
+      (currentBannerIndex === 0 && index === activeBanners.length - 1) ||
+      (currentBannerIndex === activeBanners.length - 1 && index === 0)
         ? true
         : false;
     if (currentBannerIndex - index < 0) {
@@ -118,135 +116,186 @@ const Main = () => {
   };
 
   const changeBanner = (banner) => {
-    let bannersClone = activeBannersAbbr;
-    let activeBannersClone = activeBanners;
+    if (state.animating) return;
+    let bannersClone = [...activeBanners];
+    let bannerContentClone = [...bannerContent];
     bannersClone[0] = banner;
     bannersClone[1] = banner + "_ei";
     allBanners.map((item) => {
-      if (item.abbr === banner) activeBannersClone[0].banner = item;
+      if (item.abbr === banner) bannerContentClone[0].banner = item;
       else if (item.abbr === banner + "_ei")
-        activeBannersClone[1].banner = item;
+        bannerContentClone[1].banner = item;
       return item;
     });
-    setActiveBannersAbbr(bannersClone);
-    setActiveBanners([...activeBannersClone]);
-    setCurrentBanner((previousBanner) => setPrevBanner(previousBanner));
-    setCurrentBanner(activeBannersAbbr[currentBannerIndex]);
+    setActiveBanners((prevBanners) => {
+      setPrevBanner(prevBanners[currentBannerIndex]);
+      return bannersClone;
+    });
+    setBannerContent(bannerContentClone);
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const getWidth = (width) =>
+    window.innerWidth > 1280 ? width : windowWidth / (1280 / width);
+  const getHeight = (height, width) =>
+    window.innerWidth > 1280 ? height : (getWidth(width) * height) / width;
+
+  const getWidthSelected = (width, peak) =>
+    window.innerWidth > peak ? width : windowWidth / (peak / width);
+
+  const getHeightSelected = (height, width, peak) =>
+    window.innerWidth > peak
+      ? height
+      : (getWidthSelected(width, peak) * height) / width;
+
   useEffect(() => {
-    setCurrentBanner((prevBanner) => setPrevBanner(prevBanner));
-    setCurrentBanner(activeBannersAbbr[currentBannerIndex]);
-  }, [activeBannersAbbr, currentBannerIndex]);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const mainStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+  };
+
+  const otherStyle = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  };
 
   const handleContent = () => {
     if (content === "main") {
       return (
         <>
-          <NavBar />
-          <section id="top-section">
-            <DropdownBanner
-              changeBanner={changeBanner}
-              bannersActive={activeBannersAbbr}
-            />
+          <NavBar resize={{ getHeight, getWidth, windowWidth }} />
+          <section id="top-section-main">
+            {windowWidth <= 425 ? (
+              <></>
+            ) : (
+              <DropdownBanner
+                changeBanner={changeBanner}
+                bannersActive={activeBanners}
+                animating={state.animating}
+                resize={{ getHeight, getWidth, getWidthSelected }}
+              />
+            )}
+            {windowWidth <= 425 ? (
+              <div id="top-top-section">
+                <DropdownBanner
+                  changeBanner={changeBanner}
+                  bannersActive={activeBanners}
+                  animating={state.animating}
+                  resize={{ getHeight, getWidth, getWidthSelected }}
+                />
+                <Stats primos={state.primos} resize={{ getHeight, getWidth }} />
+              </div>
+            ) : (
+              <></>
+            )}
             <MiniBanners
-              bannersActive={activeBannersAbbr}
+              bannersActive={activeBanners}
               setActive={setActiveBanner}
               activeIndex={currentBannerIndex}
               changeBanner={changeBanner}
+              resize={{ getHeight, getWidth }}
             />
-            <Stats primos={state.primos} />
+            {windowWidth <= 425 ? (
+              <></>
+            ) : (
+              <Stats primos={state.primos} resize={{ getHeight, getWidth }} />
+            )}
           </section>
           <MainBanner
+            props={state}
+            setProps={setState}
+            banners={activeBanners}
             setActive={setActiveBanner}
-            activeIndex={currentBannerIndex}
-            banners={activeBannersAbbr}
-            direction={direction}
-            animating={animating}
-            setAnimating={setAnimating}
             prevBanner={prevBanner}
+            activeIndex={currentBannerIndex}
+            direction={direction}
+            resize={{ getHeight, getWidth }}
           />
-          <section>
-            <WishButtons onWish={handleWish} activeIndex={currentBannerIndex} />
-            <SkipCheckboxes
-              skipVideo={skipVideo}
-              setSkipVideo={setSkipVideo}
-              skipSingle={skipSingle}
-              setSkipSingle={setSkipSingle}
+          <section id="bottom-section-main">
+            <WishButtons
+              onWish={handleWish}
+              activeIndex={currentBannerIndex}
+              resize={{ getHeight, getWidth }}
             />
+            <SkipCheckboxes props={state} setState={setState} />
           </section>
           <Footer />
         </>
       );
     } else
       return (
-        <>
-          <div id="skip-button">
-            <div
-              id="skip-button-crosses"
-              style={{
-                backgroundImage: "url(./assets/img/misc/close.png)",
-              }}
-              onClick={() => {
-                setAnimating(false);
-                content === "video"
-                  ? skipSingle
-                    ? setContent("main")
-                    : setContent("single")
-                  : setContent("main");
-              }}
-            ></div>
-          </div>
+        <section>
+          <SkipButton
+            state={state}
+            setState={setState}
+            content={content}
+            setContent={setContent}
+            resize={{ getHeight, getWidth }}
+          />
           {content === "video" ? (
-            <section id="video-container">
-              <video
-                id="wish-video"
-                autoPlay
-                onEnded={() =>
-                  skipSingle ? setContent("main") : setContent("single")
-                }
-              >
-                <source
-                  src={
-                    currentWish.length > 1
-                      ? hasFive
-                        ? "/assets/img/misc/5_star.webm"
-                        : "/assets/img/misc/4_star.webm"
-                      : hasFive
-                      ? "/assets/img/misc/5_star_single.webm"
-                      : hasFour
-                      ? "/assets/img/misc/4_star_single.webm"
-                      : "/assets/img/misc/3_star.webm"
-                  }
-                  type="video/webm"
-                />
-              </video>
-            </section>
+            <WishVideo
+              src={
+                state.currentWish.length > 1
+                  ? hasFive
+                    ? "/assets/img/misc/5_star.webm"
+                    : "/assets/img/misc/4_star.webm"
+                  : hasFive
+                  ? "/assets/img/misc/5_star_single.webm"
+                  : hasFour
+                  ? "/assets/img/misc/4_star_single.webm"
+                  : "/assets/img/misc/3_star.webm"
+              }
+              onEnded={() =>
+                state.skipSingle ? setContent("main") : setContent("single")
+              }
+              resize={{
+                getWidth,
+                height: (window.innerHeight / window.innerWidth) * windowWidth,
+              }}
+            />
           ) : (
             <WishSingle
-              currentWish={currentWish}
+              currentWish={state.currentWish}
               setContent={setContent}
-              animating={animating}
-              setAnimating={setAnimating}
+              resize={{
+                getHeight,
+                getWidth,
+                getHeightSelected,
+                getWidthSelected,
+              }}
             />
           )}
-        </>
+        </section>
       );
   };
 
   return (
-    <div className="App">
+    <div id="main" style={content === "main" ? mainStyle : otherStyle}>
       {
         handleContent()
+        // <Example />
         // <div id="test"></div>
       }
       <WishModal
-        images={currentWish}
-        modalState={state.isModalOpen}
+        props={state}
         toggle={toggleModal}
-        wishes={state.wishes}
         isMain={content === "main"}
-        skipAll={skipVideo && skipSingle}
+        skipAll={state.skipVideo && state.skipSingle}
+        resize={{ getHeight, getWidth }}
       />
     </div>
   );

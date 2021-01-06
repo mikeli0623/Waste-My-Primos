@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
 const Login = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const getWidth = (width) =>
+    window.innerWidth > 1280 ? width : windowWidth / (1280 / width);
+
+  const getHeight = (height, width) =>
+    window.innerWidth > 1280 ? height : (getWidth(width) * height) / width;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
-    <>
-      <NavBar />
+    <div id="login">
+      <NavBar resize={{ getWidth, getHeight, windowWidth }} />
       <div
         style={{
           display: "flex",
@@ -19,7 +37,7 @@ const Login = () => {
         </h1>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

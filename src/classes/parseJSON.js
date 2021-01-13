@@ -1,6 +1,6 @@
 import { allChars } from "../classes/Constants";
 
-class parseJSON {
+class ParseJSON {
   constructor() {
     this.charJSON = require(`../assets/data/char.json`);
     this.weaponJSON = require(`../assets/data/weapons.json`);
@@ -42,6 +42,17 @@ class parseJSON {
         if (key.name.toLowerCase() === item.replace(/_/g, " ")) return key.type;
     }
   }
+  getThumb(item) {
+    if (this.isChar(item)) {
+      for (const key of this.charJSON)
+        if (key.name.toLowerCase() === item.replace(/_/g, " "))
+          return key.thumb;
+    } else {
+      for (const key of this.weaponJSON)
+        if (key.name.toLowerCase() === item.replace(/_/g, " "))
+          return key.thumb;
+    }
+  }
 
   getTitle(item) {
     for (const key of this.bannerJSON) if (key.abbr === item) return key.title;
@@ -61,4 +72,4 @@ class parseJSON {
   }
 }
 
-export default parseJSON;
+export default ParseJSON;

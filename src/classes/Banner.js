@@ -18,6 +18,46 @@ class Banner {
   }
 }
 
+const ganyuBanner = new Banner(
+  "ganyu",
+  ["ganyu"],
+  ["xiangling", "xingqiu", "noelle"],
+  ["diluc", "jean", "keqing", "mona", "qiqi"],
+  [],
+  [
+    "sucrose",
+    "diona",
+    "chongyun",
+    "fischl",
+    "razor",
+    "beidou",
+    "ningguang",
+    "barbara",
+    "bennett",
+    "xinyan",
+  ],
+  [
+    "rust",
+    "sacrificial_bow",
+    "the_stringless",
+    "favonius_warbow",
+    "eye_of_perception",
+    "sacrificial_fragments",
+    "the_widsith",
+    "favonius_codex",
+    "favonius_lance",
+    "dragon's_bane",
+    "rainslasher",
+    "sacrificial_greatsword",
+    "the_bell",
+    "favonius_greatsword",
+    "lion's_roar",
+    "sacrificial_sword",
+    "the_flute",
+    "favonius_sword",
+  ]
+);
+
 const albedoBanner = new Banner(
   "albedo",
   ["albedo"],
@@ -65,11 +105,12 @@ const zhongliBanner = new Banner(
   ["diluc", "jean", "keqing", "mona", "qiqi"],
   [],
   [
-    "beidou",
-    "bennett",
-    "ningguang",
+    "sucrose",
     "fischl",
+    "beidou",
     "noelle",
+    "ningguang",
+    "bennett",
     "barbara",
     "sucrose",
     "xingqiu",
@@ -208,6 +249,63 @@ const ventiBanner = new Banner(
     "sacrificial_sword",
     "the_flute",
     "lion's_roar",
+    "favonius_sword",
+  ]
+);
+
+const ganyuEiBanner = new Banner(
+  "ganyu_ei",
+  ["amos'_bow", "skyward_pride"],
+  [
+    "favonius_warbow",
+    "eye_of_perception",
+    "dragon's_bane",
+    "the_bell",
+    "sacrificial_sword",
+  ],
+  [],
+  [
+    "skyward_harp",
+    "skyward_atlas",
+    "lost_prayer_to_the_sacred_winds",
+    "wolf's_gravestone",
+    "primordial_jade_winged-spear",
+    "skyward_spine",
+    "summit_shaper",
+    "skyward_blade",
+    "aquila_favonia",
+  ],
+  [
+    "sucrose",
+    "diona",
+    "chongyun",
+    "kaeya",
+    "fischl",
+    "beidou",
+    "razor",
+    "lisa",
+    "noelle",
+    "ningguang",
+    "xingqiu",
+    "barbara",
+    "xinyan",
+    "bennett",
+    "xiangling",
+    "amber",
+  ],
+  [
+    "rust",
+    "sacrificial_bow",
+    "the_stringless",
+    "sacrificial_fragments",
+    "the_widsith",
+    "favonius_codex",
+    "rainslasher",
+    "sacrificial_greatsword",
+    "favonius_greatsword",
+    "favonius_lance",
+    "lion's_roar",
+    "the_flute",
     "favonius_sword",
   ]
 );
@@ -420,6 +518,7 @@ const ventiEiBanner = new Banner(
   "venti_ei",
   ["amos'_bow", "aquila_favonia"],
   ["the_stringless", "the_widsith", "favonius_lance", "the_bell", "the_flute"],
+  [],
   [
     "skyward_harp",
     "lost_prayer_to_the_sacred_winds",
@@ -430,7 +529,6 @@ const ventiEiBanner = new Banner(
     "skyward_spine",
     "skyward_blade",
   ],
-  [],
   [
     "barbara",
     "beidou",
@@ -517,11 +615,13 @@ const standardBanner = new Banner(
 );
 
 export const allBanners = [
+  ganyuBanner,
   albedoBanner,
   zhongliBanner,
   childeBanner,
   kleeBanner,
   ventiBanner,
+  ganyuEiBanner,
   albedoEiBanner,
   zhongliEiBanner,
   childeEiBanner,

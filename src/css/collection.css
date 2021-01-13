@@ -1,0 +1,142 @@
+#collection-content {
+  display: flex;
+  justify-content: space-around;
+  height: 75vh;
+}
+
+#main-collection-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  /* background-color: rgb(36, 49, 62); */
+  background-color: rgb(52, 56, 61);
+  overflow-y: auto;
+  height: 100%;
+  width: 49.81771vw;
+}
+
+#main-collection-section::-webkit-scrollbar {
+  display: none;
+}
+
+#main-collection-section > div {
+  border: 2px solid rgb(64, 74, 81);
+  background-color: rgb(52, 58, 64);
+  transition: transform 0.2s;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#main-collection-section > .unlocked[stars="5"] {
+  background: linear-gradient(rgb(147, 96, 54), rgb(185, 115, 50));
+}
+
+#main-collection-section > .unlocked[stars="4"] {
+  background: linear-gradient(rgb(105, 92, 157), rgb(137, 116, 182));
+}
+
+#main-collection-section > .unlocked[stars="3"] {
+  background: linear-gradient(rgb(66, 83, 126), rgb(89, 111, 167));
+}
+
+#main-collection-section > div > div {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#main-collection-section > div:hover {
+  transform: scale(1.1);
+}
+
+#main-collection-section > div > div[stars="5"] {
+  filter: drop-shadow(0 0 4px rgb(248, 233, 199))
+    drop-shadow(0 0 8px rgb(248, 255, 159))
+    drop-shadow(0 0 12px rgb(254, 191, 112));
+}
+
+#main-collection-section > div > div[stars="4"] {
+  filter: drop-shadow(0 0 2px rgb(218, 196, 253))
+    drop-shadow(0 0 4px rgb(226, 194, 243))
+    drop-shadow(0 0 6px rgb(147, 120, 255));
+}
+
+#main-collection-section > div > div[stars="3"] {
+  filter: drop-shadow(0 0 1px rgb(207, 232, 255))
+    drop-shadow(0 0 2px rgb(76, 98, 155)) drop-shadow(0 0 3px rgb(73, 93, 143));
+}
+
+#collection-filter {
+  width: 24.5vw;
+  background-color: rgb(36, 49, 62);
+  display: flex;
+  flex-direction: column;
+}
+
+#collection-filter > h3 {
+  color: rgb(209, 188, 141);
+  text-align: left;
+  margin: 1% 10px;
+}
+
+#subfilter-section {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.custom-button {
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 5%;
+}
+
+#subfilter-section::-webkit-scrollbar {
+  display: none;
+}
+
+.subfilter {
+  margin: 10px;
+}
+
+.subfilter-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-button {
+  background-color: rgb(75, 75, 75);
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.trash-icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgb(49, 49, 49);
+  border-radius: 50%;
+}
+
+.clear-button:hover {
+  background-color: rgb(129, 129, 129);
+}
+
+.clear-button:active {
+  background-color: rgb(242, 215, 137);
+  text-shadow: 1px 0 5px rgb(82, 82, 82);
+}
+
+.subfilter-checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  margin: 1%;
+}

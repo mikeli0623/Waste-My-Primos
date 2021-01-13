@@ -1,19 +1,19 @@
-import parseJSON from "../classes/parseJSON";
-export const json = new parseJSON();
+import ParseJSON from "../classes/ParseJSON";
+export const JSON = new ParseJSON();
 
 export const type = {
-  Hydro: "./assets/img/misc/hydro.webp",
-  Pyro: "./assets/img/misc/pyro.webp",
-  Geo: "./assets/img/misc/geo.webp",
-  Electro: "./assets/img/misc/electro.webp",
-  Dendro: "./assets/img/misc/dendro.webp",
-  Cryo: "./assets/img/misc/cryo.webp",
-  Anemo: "./assets/img/misc/anemo.webp",
-  Bow: "./assets/img/misc/bow.webp",
-  Catalyst: "./assets/img/misc/catalyst.webp",
-  Claymore: "./assets/img/misc/claymore.webp",
-  Polearm: "./assets/img/misc/polearm.webp",
-  Sword: "./assets/img/misc/sword.webp",
+  hydro: "../assets/img/misc/hydro.webp",
+  pyro: "../assets/img/misc/pyro.webp",
+  geo: "../assets/img/misc/geo.webp",
+  electro: "../assets/img/misc/electro.webp",
+  dendro: "../assets/img/misc/dendro.webp",
+  cryo: "../assets/img/misc/cryo.webp",
+  anemo: "../assets/img/misc/anemo.webp",
+  bow: "../assets/img/misc/bow.webp",
+  catalyst: "../assets/img/misc/catalyst.webp",
+  claymore: "../assets/img/misc/claymore.webp",
+  polearm: "../assets/img/misc/polearm.webp",
+  sword: "../assets/img/misc/sword.webp",
 };
 
 export const baseThreeStar = [
@@ -32,7 +32,7 @@ export const baseThreeStar = [
   "cool_steel",
 ];
 
-export const allChars = [
+const allChars = [
   "albedo",
   "amber",
   "barbara",
@@ -42,6 +42,7 @@ export const allChars = [
   "diluc",
   "diona",
   "fischl",
+  "ganyu",
   "jean",
   "kaeya",
   "keqing",
@@ -61,12 +62,62 @@ export const allChars = [
   "zhongli",
 ];
 
-export const allBannersAbbr = [
+const allWeapons = [
+  "amos'_bow",
+  "aquila_favonia",
+  "black_tassel",
+  "bloodtainted_greatsword",
+  "cool_steel",
+  "debate_club",
+  "dragon's_bane",
+  "emerald_orb",
+  "eye_of_perception",
+  "favonius_codex",
+  "favonius_greatsword",
+  "favonius_lance",
+  "favonius_sword",
+  "favonius_warbow",
+  "ferrous_shadow",
+  "harbinger_of_dawn",
+  "lion's_roar",
+  "lost_prayer_to_the_sacred_winds",
+  "magic_guide",
+  "memory_of_dust",
+  "primordial_jade_winged-spear",
+  "rainslasher",
+  "raven_bow",
+  "rust",
+  "sacrificial_bow",
+  "sacrificial_fragments",
+  "sacrificial_greatsword",
+  "sacrificial_sword",
+  "sharpshooter's_oath",
+  "skyrider_sword",
+  "skyward_atlas",
+  "skyward_blade",
+  "skyward_harp",
+  "skyward_pride",
+  "skyward_spine",
+  "slingshot",
+  "the_bell",
+  "the_flute",
+  "the_stringless",
+  "the_widsith",
+  "thrilling_tales_of_dragon_slayers",
+  "wolf's_gravestone",
+  "vortex_vanquisher",
+  "the_unforged",
+  "summit_shaper",
+];
+
+const allBannersAbbr = [
+  "ganyu",
   "albedo",
   "zhongli",
   "childe",
   "klee",
   "venti",
+  "ganyu_ei",
   "albedo_ei",
   "zhongli_ei",
   "childe_ei",
@@ -74,3 +125,4 @@ export const allBannersAbbr = [
   "venti_ei",
   "standard",
 ];
+export { allChars, allWeapons, allBannersAbbr };

@@ -14,6 +14,7 @@ const NavBar = ({ resize }) => {
             resize.windowWidth <= 425
               ? ""
               : `${resize.getWidth(6)}px ${resize.getHeight(16, 8)}px`,
+          transition: "all 0.2s",
         }}
       >
         <NavbarBrand
@@ -22,9 +23,10 @@ const NavBar = ({ resize }) => {
           exact
           to="/"
           style={{
+            transition: "all 0.2s",
             color: "antiquewhite",
             fontSize:
-              resize.windowWidth <= 425 ? "16px" : `${resize.getWidth(24)}px`,
+              resize.windowWidth <= 425 ? "15px" : `${resize.getWidth(24)}px`,
           }}
         >
           WASTE MY PRIMOS
@@ -37,6 +39,7 @@ const NavBar = ({ resize }) => {
               to="/myCollection"
               activeClassName="active"
               style={{
+                transition: "all 0.2s",
                 fontSize:
                   resize.windowWidth <= 425
                     ? "10px"
@@ -53,6 +56,7 @@ const NavBar = ({ resize }) => {
               to="/login"
               activeClassName="active"
               style={{
+                transition: "all 0.2s",
                 fontSize:
                   resize.windowWidth <= 425
                     ? "10px"

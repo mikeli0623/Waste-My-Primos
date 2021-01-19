@@ -15,6 +15,8 @@ import { allBanners } from "../../classes/Banner";
 import WishVideo from "./WishVideo";
 import History from "../../classes/History";
 import Button from "../Button";
+import { allBannersAbbr, allChars, allWeapons } from "../../classes/Constants";
+import axios from "axios";
 
 const bodyStyle = {
   background:
@@ -51,9 +53,9 @@ const Main = () => {
   );
 
   const [activeBanners, setActiveBanners] = useState([
-    "ganyu",
-    "ganyu_ei",
-    "standard",
+    "5fff6b9b9d4d2c31707c5eb6",
+    "5fff6b9b9d4d2c31707c5eb7",
+    "5fff6b9b9d4d2c31707c5ec2",
   ]);
 
   const [prevBanner, setPrevBanner] = useState(undefined);
@@ -61,6 +63,7 @@ const Main = () => {
   const [bannerContent, setBannerContent] = useState([
     {
       banner: allBanners[0],
+
       rateFive: 0.006,
       rateFour: 0.051,
       guaranteeFive: sessionStorage.getItem("charGuaranteeFive") === "true",
@@ -69,7 +72,7 @@ const Main = () => {
       pityFour: parseInt(sessionStorage.getItem("charPityFour")) || 0,
     },
     {
-      banner: allBanners[6],
+      banner: allBanners[1],
       rateFive: 0.007,
       rateFour: 0.06,
       guaranteeFive: sessionStorage.getItem("weaponGuaranteeFive") === "true",
@@ -112,13 +115,97 @@ const Main = () => {
     }
   };
 
+  const [bannerData, setBannerData] = useState([]);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    axios
+      .get("http://localhost:3000/banners/", { cancelToken: source.token })
+      .then((response) => {
+        setBannerData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  const [charData, setCharData] = useState([]);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    axios
+      .get("http://localhost:3000/characters/", { cancelToken: source.token })
+      .then((response) => {
+        setCharData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  const [weaponData, setWeaponData] = useState([]);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    axios
+      .get("http://localhost:3000/weapons/", { cancelToken: source.token })
+      .then((response) => {
+        setWeaponData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  const [typeData, setTypeData] = useState([]);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    axios
+      .get("http://localhost:3000/types/", { cancelToken: source.token })
+      .then((response) => {
+        setTypeData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  // creates stash
+  useEffect(() => {
+    if (JSON.parse(sessionStorage.getItem("stash"))) return;
+    let stash = [];
+    allChars.map((char) => stash.push({ itemId: char, count: 0 }));
+    allWeapons.map((weapon) => stash.push({ itemId: weapon, count: 0 }));
+    sessionStorage.setItem("stash", JSON.stringify(stash));
+  }, []);
+
+  const updateStash = (wishItem) => {
+    let stash = JSON.parse(sessionStorage.getItem("stash"));
+    stash.map((stashItem) => {
+      if (stashItem.itemId === wishItem) stashItem.count += 1;
+      return stashItem;
+    });
+    sessionStorage.setItem("stash", JSON.stringify(stash));
+  };
+
   const lockables = (wishResults) => {
-    let unlocked = JSON.parse(sessionStorage.getItem("unlocked")) || [];
     wishResults.map((item) => {
-      if (!unlocked.includes(item)) unlocked.push(item);
+      updateStash(item);
       return item;
     });
-    sessionStorage.setItem("unlocked", JSON.stringify(unlocked));
   };
 
   const handleWish = (wishes) => {
@@ -133,6 +220,7 @@ const Main = () => {
       wishResults.push(
         CalcWish(currentBanner, bannerContent, setHasFive, setHasFour)
       );
+    // console.log(wishResults);
     lockables(wishResults);
     sessionStorage.setItem("primos", state.primos + wishes * 160);
     sessionStore("PityFive", bannerContent[currentBannerIndex].pityFive);
@@ -180,16 +268,15 @@ const Main = () => {
   const toggleModal = () => {
     setState({ ...state, isModalOpen: false });
   };
-
   const changeBanner = (banner) => {
     if (state.animating) return;
     let bannersClone = [...activeBanners];
     let bannerContentClone = [...bannerContent];
     bannersClone[0] = banner;
-    bannersClone[1] = banner + "_ei";
+    bannersClone[1] = allBannersAbbr[allBannersAbbr.indexOf(banner) + 1];
     allBanners.map((item) => {
       if (item.abbr === banner) bannerContentClone[0].banner = item;
-      else if (item.abbr === banner + "_ei")
+      else if (item.abbr === bannersClone[1])
         bannerContentClone[1].banner = item;
       return item;
     });
@@ -198,6 +285,17 @@ const Main = () => {
       return bannersClone;
     });
     setBannerContent(bannerContentClone);
+  };
+
+  const handleCheckbox = (e) => {
+    switch (e.target.id) {
+      case "skip-video":
+        setState({ ...state, skipVideo: e.target.checked });
+        break;
+      default:
+        setState({ ...state, skipSingle: e.target.checked });
+        break;
+    }
   };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -237,6 +335,7 @@ const Main = () => {
                 changeBanner={changeBanner}
                 bannersActive={activeBanners}
                 animating={state.animating}
+                bannerData={bannerData}
                 resize={resize}
               />
             )}
@@ -246,6 +345,7 @@ const Main = () => {
                   changeBanner={changeBanner}
                   bannersActive={activeBanners}
                   animating={state.animating}
+                  bannerData={bannerData}
                   resize={resize}
                 />
                 <Stats primos={state.primos} resize={resize} />
@@ -258,6 +358,7 @@ const Main = () => {
               setActive={setActiveBanner}
               activeIndex={currentBannerIndex}
               changeBanner={changeBanner}
+              bannerData={bannerData}
               resize={resize}
             />
             {windowWidth <= 425 ? (
@@ -274,6 +375,7 @@ const Main = () => {
             prevBanner={prevBanner}
             activeIndex={currentBannerIndex}
             direction={direction}
+            bannerData={bannerData}
             resize={resize}
           />
           <section id="bottom-section-main">
@@ -306,18 +408,14 @@ const Main = () => {
                 checked={state.skipVideo}
                 id={"skip-video"}
                 text={"Skip Video"}
-                onChange={() =>
-                  setState({ ...state, skipVideo: !state.skipVideo })
-                }
+                onChange={(e) => handleCheckbox(e)}
                 resize={resize}
               />
               <Checkbox
                 checked={state.skipSingle}
                 id={"skip-single"}
                 text={"Skip Single"}
-                onChange={() =>
-                  setState({ ...state, skipSingle: !state.skipSingle })
-                }
+                onChange={(e) => handleCheckbox(e)}
                 resize={resize}
               />
             </div>
@@ -367,6 +465,9 @@ const Main = () => {
             <WishSingle
               currentWish={state.currentWish}
               setContent={setContent}
+              charData={charData}
+              weaponData={weaponData}
+              typeData={typeData}
               resize={resize}
             />
           )}
@@ -385,6 +486,9 @@ const Main = () => {
         toggle={toggleModal}
         isMain={content === "main"}
         skipAll={state.skipVideo && state.skipSingle}
+        charData={charData}
+        weaponData={weaponData}
+        typeData={typeData}
         resize={resize}
       />
     </div>

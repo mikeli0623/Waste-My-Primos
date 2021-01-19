@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { allBannersAbbr, JSON } from "../../classes/Constants";
+import { allBannersAbbr } from "../../classes/Constants";
 import Carousel from "./Carousel/Carousel";
 import CarouselItem from "./Carousel/CarouselItem";
 
@@ -11,6 +11,7 @@ const MainBanner = ({
   prevBanner,
   activeIndex,
   direction,
+  bannerData,
   resize,
 }) => {
   const next = (banners) => {
@@ -59,6 +60,15 @@ const MainBanner = ({
     }
   };
 
+  const getMain = (banner) => {
+    let mainBanner = "";
+    bannerData.map((datum) => {
+      if (banner === datum._id) mainBanner = datum.mainBanner;
+      return datum;
+    });
+    return mainBanner;
+  };
+
   const slides = allBannersAbbr.map((banner) => {
     return (
       <CarouselItem
@@ -71,7 +81,7 @@ const MainBanner = ({
           height={`${resize.getHeight(550, 1100)}`}
           src={
             banners.includes(banner) || banner === prevBanner
-              ? JSON.getMain(banner)
+              ? getMain(banner)
               : undefined
           }
           alt={banner}
@@ -96,10 +106,6 @@ const MainBanner = ({
               : `${resize.getHeight(44, 32)}px`,
           width:
             resize.windowWidth <= 425 ? undefined : `${resize.getWidth(32)}px`,
-          backgroundSize:
-            resize.windowWidth <= 425
-              ? undefined
-              : `${resize.getWidth(32)}px ${resize.getHeight(44, 32)}px`,
         }}
         onClick={() => (prev ? previous(banners) : next(banners))}
       />

@@ -12,7 +12,7 @@ const CloseButton = ({ type, onClick, style, resize }) => {
       })}
     >
       <div
-        id="close-button-crosses"
+        id="close-button-type"
         style={{
           backgroundImage: `url(${
             type === "close"

@@ -1,15 +1,51 @@
 import React from "react";
-import ParseJSON from "../../classes/ParseJSON";
 import { Modal, ModalBody } from "reactstrap";
+import { allChars } from "../../classes/Constants";
 
-const json = new ParseJSON();
-const WishModal = ({ props, toggle, isMain, skipAll, resize }) => {
+const WishModal = ({
+  props,
+  toggle,
+  isMain,
+  skipAll,
+  charData,
+  weaponData,
+  typeData,
+  resize,
+}) => {
+  const getStars = (item) => {
+    let stars = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        });
+    return stars;
+  };
+
+  const getMulti = (item) => {
+    let multi = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) multi = datum.gachaMulti;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) multi = datum.gachaMulti;
+          return datum;
+        });
+    return multi;
+  };
+
   const sortWishes = (results) => {
     return results.sort((a, b) => {
-      let starA = json.getStars(a) * 100;
-      let starB = json.getStars(b) * 100;
-      if (!json.isChar(a)) starA -= 10;
-      else if (!json.isChar(b)) starB -= 10;
+      let starA = getStars(a) * 100;
+      let starB = getStars(b) * 100;
+      if (!allChars.includes(a)) starA -= 10;
+      else if (!allChars.includes(b)) starB -= 10;
       return starB - starA;
     });
   };
@@ -22,7 +58,7 @@ const WishModal = ({ props, toggle, isMain, skipAll, resize }) => {
           key={image + index}
           className="wish-result"
           style={{
-            backgroundImage: `url("${json.getMulti(image)}")`,
+            backgroundImage: `url("${getMulti(image)}")`,
             height: `${isMain ? resize.getHeight(800, 106) : 0}px`,
             width: `${isMain ? resize.getWidth(106) : 0}px`,
             backgroundSize: `${resize.getWidth(106)}px ${resize.getHeight(

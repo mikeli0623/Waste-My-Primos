@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { type, JSON } from "../../classes/Constants";
+import { allChars } from "../../classes/Constants";
 
-const WishSingle = ({ currentWish, setContent, resize }) => {
+const WishSingle = ({
+  currentWish,
+  setContent,
+  charData,
+  weaponData,
+  typeData,
+  resize,
+}) => {
   document.querySelector(".navbar").style.visibility = "hidden";
   document.querySelector("#footer").style.visibility = "hidden";
 
@@ -9,6 +16,87 @@ const WishSingle = ({ currentWish, setContent, resize }) => {
     singleWishIndex: 0,
     animating: false,
   });
+
+  const getStars = (item) => {
+    let stars = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        });
+    return stars;
+  };
+
+  const getName = (item) => {
+    let name = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) name = datum.name;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) name = datum.name;
+          return datum;
+        });
+    return name;
+  };
+
+  const getSingle = (item) => {
+    let single = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) single = datum.gachaSingle;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) single = datum.gachaSingle;
+          return datum;
+        });
+    return single;
+  };
+
+  const getTypeLocation = (item) => {
+    let typeId = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) typeId = datum.vision;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) typeId = datum.type;
+          return datum;
+        });
+
+    let typeLocation = "";
+    typeData.map((datum) => {
+      if (typeId === datum._id) typeLocation = datum.location;
+      return datum;
+    });
+    return typeLocation;
+  };
+
+  const getType = (item) => {
+    let typeId = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) typeId = datum.vision;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) typeId = datum.type;
+          return datum;
+        });
+    let type = "";
+    typeData.map((datum) => {
+      if (typeId === datum._id) type = datum.type;
+      return datum;
+    });
+    return type;
+  };
 
   const [item, setItem] = useState(currentWish[0]);
 
@@ -55,8 +143,8 @@ const WishSingle = ({ currentWish, setContent, resize }) => {
       <div id={`${state.animating ? "single-info" : ""}`}>
         <img
           className={`${state.animating ? "single-type" : "transparent"}`}
-          src={type[JSON.getType(item).toLowerCase()]}
-          alt={type[type[JSON.getType(item).toLowerCase()]]}
+          src={getTypeLocation(item)}
+          alt={getType(item)}
           width={`${resize.getWidth(115)}`}
           draggable="false"
         />
@@ -71,7 +159,7 @@ const WishSingle = ({ currentWish, setContent, resize }) => {
               textShadow: "1px 0 5px black",
             }}
           >
-            {JSON.getName(item)}
+            {getName(item)}
           </h1>
           <div
             id="stars-container"
@@ -79,7 +167,7 @@ const WishSingle = ({ currentWish, setContent, resize }) => {
               height: `${resize.getHeight(26, 26)}px`,
             }}
           >
-            {Array(JSON.getStars(item))
+            {Array(getStars(item))
               .fill()
               .map((e, i) => {
                 return starPrinter(i);
@@ -94,29 +182,29 @@ const WishSingle = ({ currentWish, setContent, resize }) => {
               className={`${
                 i === state.singleWishIndex ? "single-pull" : "transparent"
               }
-              ${JSON.isChar(item) ? "single-char" : "single-weapon"}`}
-              src={JSON.getSingle(wish)}
+              ${allChars.includes(item) ? "single-char" : "single-weapon"}`}
+              src={getSingle(wish)}
               alt={wish}
               onAnimationEnd={() => setState({ ...state, animating: true })}
               height={`${
-                JSON.isChar(item)
+                allChars.includes(item)
                   ? `${resize.getWidth(1000)}px`
-                  : JSON.getType(item) === "Sword"
+                  : getType(item) === "Sword"
                   ? `${resize.getHeight(750, 200)}px`
-                  : JSON.getType(item) === "Bow"
+                  : getType(item) === "Bow"
                   ? `${resize.getHeight(750, 200)}px`
-                  : JSON.getType(item) === "Claymore"
+                  : getType(item) === "Claymore"
                   ? `${resize.getHeight(850, 200)}px`
-                  : JSON.getType(item) === "Polearm"
+                  : getType(item) === "Polearm"
                   ? `${resize.getHeight(850, 200)}px`
                   : undefined
               }`}
               width={`${
-                JSON.getType(item) === "Catalyst"
+                getType(item) === "Catalyst"
                   ? `${resize.getWidth(450)}px`
                   : undefined
               }`}
-              type={JSON.getType(item)}
+              type={getType(item)}
               draggable="false"
             />
           </div>

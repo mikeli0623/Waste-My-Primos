@@ -44,6 +44,7 @@ const Footer = () => {
           www.flaticon.com.
         </a>
       </div>
+      {/* <img src="../assets/img/misc/GitHub-Mark-32px.png" /> */}
     </section>
   );
 };

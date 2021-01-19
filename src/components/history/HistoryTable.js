@@ -1,8 +1,96 @@
-import React from "react";
-import { JSON } from "../../classes/Constants";
+import React, { useState, useEffect } from "react";
+import { allChars } from "../../classes/Constants";
 import { Table } from "reactstrap";
+import axios from "axios";
 
 const HistoryTable = ({ history, resize }) => {
+  const [charData, setCharData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/characters/")
+      .then((response) => {
+        setCharData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const [weaponData, setWeaponData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/weapons/")
+      .then((response) => {
+        setWeaponData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const [typeData, setTypeData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/types/")
+      .then((response) => {
+        setTypeData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const getName = (item) => {
+    let name = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) name = datum.name;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) name = datum.name;
+          return datum;
+        });
+    return name;
+  };
+
+  const getType = (item) => {
+    let typeId = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) typeId = datum.vision;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) typeId = datum.type;
+          return datum;
+        });
+    console.log(typeId);
+    let type = "";
+    typeData.map((datum) => {
+      if (typeId === datum._id) type = datum.type;
+      return datum;
+    });
+    return type;
+  };
+
+  const getStars = (item) => {
+    let stars = "";
+    allChars.includes(item)
+      ? charData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        })
+      : weaponData.map((datum) => {
+          if (item === datum._id) stars = datum.rarity;
+          return datum;
+        });
+    return stars;
+  };
+
   const fontSize =
     resize.windowWidth < 425
       ? undefined
@@ -11,21 +99,21 @@ const HistoryTable = ({ history, resize }) => {
   const displayHistory = history.map((item, index) => {
     return (
       <tr key={item + index} style={fontSize}>
-        <td>{item.type}</td>
+        <td>{getType(item.id)}</td>
         <td
           style={{
             color:
-              JSON.getStars(item.name.toLowerCase()) === 4
+              getStars(item.id) === 4
                 ? "rgb(162, 86, 225)"
-                : JSON.getStars(item.name.toLowerCase()) === 5
+                : getStars(item.id) === 5
                 ? "rgb(189, 105, 50)"
                 : undefined,
           }}
         >
-          {item.name +
-            (JSON.getStars(item.name.toLowerCase()) === 4
+          {getName(item.id) +
+            (getStars(item.id) === 4
               ? " (4-Star)"
-              : JSON.getStars(item.name.toLowerCase()) === 5
+              : getStars(item.id) === 5
               ? " (5-Star)"
               : "")}
         </td>

@@ -1,6 +1,10 @@
 import React from "react";
 
-const Checkbox = ({ checked, id, text, onChange, resize }) => {
+const Checkbox = ({ checked = false, id, text, onChange, resize }) => {
+  const handleChange = (e) => {
+    if (onChange) onChange(e);
+  };
+
   return (
     <label
       className={`checkbox ${checked ? "active" : ""}`}
@@ -17,7 +21,7 @@ const Checkbox = ({ checked, id, text, onChange, resize }) => {
         type="checkbox"
         id={id}
         checked={checked}
-        onChange={onChange}
+        onChange={handleChange}
         style={{
           width:
             resize.windowWidth <= 425

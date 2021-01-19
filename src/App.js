@@ -1,5 +1,5 @@
 import "./css/App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./components/main/Main";
 import Collection from "./components/collection/Collection";
@@ -7,8 +7,13 @@ import Login from "./components/login/Login";
 import HistoryContent from "./components/history/HistoryContent";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { UserContext } from "./components/UserContext";
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  const userValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const getWidth = (width) =>
@@ -41,10 +46,12 @@ const App = () => {
       <div className="App">
         <NavBar resize={resize} />
         <Switch>
-          <Route path="/" exact component={Main} />
-          <Route path="/myCollection" component={Collection} />
-          <Route path="/login" component={Login} />
-          <Route path="/history" component={HistoryContent} />
+          <UserContext.Provider value={userValue}>
+            <Route path="/" exact component={Main} />
+            <Route path="/myCollection" component={Collection} />
+            <Route path="/login" component={Login} />
+            <Route path="/history" component={HistoryContent} />
+          </UserContext.Provider>
         </Switch>
         <Footer />
       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { allBannersAbbr, JSON } from "../../classes/Constants";
+import { allBannersAbbr } from "../../classes/Constants";
 import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from "reactstrap";
 
 const MiniTooltip = ({
@@ -8,6 +8,7 @@ const MiniTooltip = ({
   onSelect,
   dropOpen,
   animating,
+  bannerData,
   resize,
 }) => {
   const [toolTip, setToolTip] = useState({});
@@ -34,11 +35,29 @@ const MiniTooltip = ({
     return toolTip[targetName] ? toolTip[targetName].tooltipOpen : false;
   };
 
+  const getMini = (banner) => {
+    let miniBanner = "";
+    bannerData.map((datum) => {
+      if (banner === datum._id) miniBanner = datum.miniBanner;
+      return datum;
+    });
+    return miniBanner;
+  };
+
+  const getTitle = (banner) => {
+    let title = "";
+    bannerData.map((datum) => {
+      if (banner === datum._id) title = datum.title;
+      return datum;
+    });
+    return title;
+  };
+
   return (
     <>
       <img
-        src={dropOpen ? JSON.getMini(miniBanner) : ""}
-        alt={miniBanner + "-mini-banner"}
+        src={dropOpen ? getMini(miniBanner) : ""}
+        alt={miniBanner}
         id={`mini-${index}`}
         onClick={() => (!animating ? onSelect(miniBanner) : undefined)}
         // height={`${resize.getHeight(88, 175)}`}
@@ -55,12 +74,18 @@ const MiniTooltip = ({
           color: "antiquewhite",
         }}
       >
-        {JSON.getTitle(miniBanner)}
+        {getTitle(miniBanner)}
       </Tooltip>
     </>
   );
 };
-const DropdownBanner = ({ changeBanner, bannersActive, animating, resize }) => {
+const DropdownBanner = ({
+  changeBanner,
+  bannersActive,
+  animating,
+  bannerData,
+  resize,
+}) => {
   const [dropOpen, setDropOpen] = useState(false);
 
   const toggleDrop = (miniBanner) => {
@@ -97,7 +122,10 @@ const DropdownBanner = ({ changeBanner, bannersActive, animating, resize }) => {
         >
           {allBannersAbbr
             .filter((banner) => {
-              return !banner.includes("_ei") && !bannersActive.includes(banner);
+              return (
+                allBannersAbbr.indexOf(banner) % 2 === 0 &&
+                !bannersActive.includes(banner)
+              );
             })
             .map((miniBanner, index) => {
               return (
@@ -109,6 +137,7 @@ const DropdownBanner = ({ changeBanner, bannersActive, animating, resize }) => {
                   bannersActive={bannersActive}
                   dropOpen={dropOpen}
                   animating={animating}
+                  bannerData={bannerData}
                   resize={resize}
                 />
               );

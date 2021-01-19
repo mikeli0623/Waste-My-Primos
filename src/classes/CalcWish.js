@@ -1,6 +1,9 @@
 import { baseThreeStar } from "./Constants";
 
-const randItem = (pool) => pool[Math.floor(Math.random() * pool.length)];
+const randItem = (pool) => {
+  console.log(pool);
+  return pool[Math.floor(Math.random() * pool.length)];
+};
 
 export const CalcWish = (
   currentBanner,
@@ -11,7 +14,7 @@ export const CalcWish = (
   const wishChance = Math.random();
   const rateUp = Math.random() < 0.5 ? true : false;
   let wishItem;
-  activeBanners.map((banner) => {
+  activeBanners.map((banner, index) => {
     if (currentBanner === banner.banner.abbr) {
       // matches banner
       if (wishChance < banner.rateFive || banner.pityFive >= 89) {
@@ -19,7 +22,7 @@ export const CalcWish = (
         setHasFive(true);
         banner.pityFive = 0;
         banner.pityFour++;
-        if (!(currentBanner === "standard")) {
+        if (!(currentBanner === "5fff6b9b9d4d2c31707c5ec2")) {
           // non-standard banner
           if (rateUp || banner.guaranteeFive) {
             // draw from rateUp
@@ -27,9 +30,10 @@ export const CalcWish = (
             wishItem = randItem(banner.banner.rateUpFive);
           } else {
             // drawing from normal pile
-            wishItem = currentBanner.includes("_ei")
-              ? randItem(banner.banner.poolFiveWeapon)
-              : randItem(banner.banner.poolFiveChar);
+            wishItem =
+              index === 1
+                ? randItem(banner.banner.poolFiveWeapon)
+                : randItem(banner.banner.poolFiveChar);
             banner.guaranteeFive = true;
           }
         } else {
@@ -43,7 +47,7 @@ export const CalcWish = (
         setHasFour(true);
         banner.pityFour = 0;
         banner.pityFive++;
-        if (!(currentBanner === "standard")) {
+        if (!(currentBanner === "5fff6b9b9d4d2c31707c5ec2")) {
           // not standard banner
           if (rateUp || banner.guaranteeFour) {
             // draw from rateUp

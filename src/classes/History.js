@@ -1,5 +1,3 @@
-import { JSON } from "../classes/Constants";
-
 class History {
   constructor(wish) {
     this.wish = wish;
@@ -18,8 +16,7 @@ class History {
     let history = [];
     this.wish.map((item) => {
       history.push({
-        type: JSON.getType(item),
-        name: JSON.getName(item),
+        id: item,
         time: this.date,
       });
       return item;

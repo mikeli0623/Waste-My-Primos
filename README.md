@@ -11,6 +11,7 @@ dakdadldma
 
 # Demo
 https://wastemyprimos.web.app/
+Server is probably not running so you probably won't see any images.
 
 # To Do
 - make better

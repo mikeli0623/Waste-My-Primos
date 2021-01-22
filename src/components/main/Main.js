@@ -15,26 +15,16 @@ import { allBanners } from "../../classes/Banner";
 import WishVideo from "./WishVideo";
 import History from "../../classes/History";
 import Button from "../Button";
-import { allBannersAbbr, allChars, allWeapons } from "../../classes/Constants";
+import {
+  allBannersAbbr,
+  allChars,
+  allWeapons,
+  pageTransition,
+} from "../../classes/Constants";
 import axios from "axios";
-
-const bodyStyle = {
-  background:
-    "url(../assets/img/misc/background.webp) no-repeat center center fixed",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
-  backgroundSize: "cover",
-  height: "100vh",
-  width: "100vw",
-};
+import { motion } from "framer-motion";
 
 const Main = () => {
-  Object.assign(document.body.style, bodyStyle);
-  let nav = document.querySelector(".navbar");
-  let footer = document.querySelector("#footer");
-  if (nav) nav.style.visibility = "visible";
-  if (footer) footer.style.visibility = "visible";
-
   const [state, setState] = useState({
     isModalOpen: false,
     wishes: 0,
@@ -63,7 +53,6 @@ const Main = () => {
   const [bannerContent, setBannerContent] = useState([
     {
       banner: allBanners[0],
-
       rateFive: 0.006,
       rateFour: 0.051,
       guaranteeFive: sessionStorage.getItem("charGuaranteeFive") === "true",
@@ -198,7 +187,22 @@ const Main = () => {
       if (stashItem.itemId === wishItem) stashItem.count += 1;
       return stashItem;
     });
+    orderStash(stash);
     sessionStorage.setItem("stash", JSON.stringify(stash));
+  };
+
+  const orderStash = (stash) => {
+    for (let i = 1; i < stash.length; i++) {
+      if (stash[i].count > 0) {
+        for (let j = i - 1; j >= 0; j--) {
+          if (stash[j].count === 0) {
+            let tmp = stash[j];
+            stash[j] = stash[j + 1];
+            stash[j + 1] = tmp;
+          }
+        }
+      }
+    }
   };
 
   const lockables = (wishResults) => {
@@ -220,7 +224,6 @@ const Main = () => {
       wishResults.push(
         CalcWish(currentBanner, bannerContent, setHasFive, setHasFour)
       );
-    // console.log(wishResults);
     lockables(wishResults);
     sessionStorage.setItem("primos", state.primos + wishes * 160);
     sessionStore("PityFive", bannerContent[currentBannerIndex].pityFive);
@@ -327,7 +330,10 @@ const Main = () => {
     if (content === "main") {
       return (
         <>
-          <section id="top-section-main">
+          <section
+            id="top-section-main"
+            style={{ height: `${resize.getHeight(95, 188)}` }}
+          >
             {windowWidth <= 425 ? (
               <></>
             ) : (
@@ -379,7 +385,10 @@ const Main = () => {
             resize={resize}
           />
           <section id="bottom-section-main">
-            <div id="bottom-top-section-main">
+            <div
+              id="bottom-top-section-main"
+              style={{ height: `${resize.getHeight(75, 293)}px` }}
+            >
               <Link
                 to={{
                   pathname: "/history",
@@ -476,11 +485,21 @@ const Main = () => {
   };
 
   return (
-    <div className="content-section">
-      {
-        handleContent()
-        // <div id="test"></div>
-      }
+    <motion.section
+      className="content-section"
+      initial="out"
+      exit="out"
+      animate="in"
+      variants={pageTransition}
+    >
+      <div
+        className="background"
+        style={{
+          backgroundImage: "url(../assets/img/misc/background.webp)",
+          zIndex: `${content === "main" ? "-1" : "1050"}`,
+        }}
+      />
+      {handleContent()}
       <WishModal
         props={state}
         toggle={toggleModal}
@@ -491,7 +510,7 @@ const Main = () => {
         typeData={typeData}
         resize={resize}
       />
-    </div>
+    </motion.section>
   );
 };
 

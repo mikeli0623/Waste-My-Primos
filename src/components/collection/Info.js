@@ -3,7 +3,7 @@ import { allChars } from "../../classes/Constants";
 import { allBanners } from "../../classes/Banner";
 import axios from "axios";
 
-const Info = ({ item, resize }) => {
+const Info = ({ item, animating, resize }) => {
   const isChar = (item) => allChars.includes(item);
 
   const [bannerData, setBannerData] = useState([]);
@@ -120,6 +120,8 @@ const Info = ({ item, resize }) => {
         className="item-stars"
         src="./assets/img/misc/star.webp"
         alt="star"
+        animating={animating ? "true" : "false"}
+        locked={item.count === 0 ? "true" : "false"}
         height={`${resize.getHeight(26, 26)}`}
         width={`${resize.getWidth(26)}`}
         star={i + 1}
@@ -167,66 +169,51 @@ const Info = ({ item, resize }) => {
 
   return (
     <section id="collection-info-section">
-      {isChar(item.itemId) ? (
+      <div
+        id="item-info"
+        style={{
+          height: "550px",
+        }}
+      >
+        <h3>{itemInfo.name}</h3>
         <div
-          id="char-info"
+          id="item-type"
+          style={{
+            backgroundImage: `url(${getTypeIcon(itemInfo.typeId)})`,
+            height: "115px",
+            width: "115px",
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+          }}
+          animating={animating ? "true" : "false"}
+          locked={item.count === 0 ? "true" : "false"}
+        />
+        <div
+          id="item-portrait"
+          animating={animating ? "true" : "false"}
+          locked={item.count === 0 ? "true" : "false"}
           style={{
             backgroundImage: `url(${itemInfo.portrait})`,
+            backgroundSize: `${
+              getType(itemInfo.typeId) === "Catalyst"
+                ? "350px 350px"
+                : "contain"
+            }`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
-            height: "550px",
+            backgroundPosition: "center",
+            height: "inherit",
+            width: "inherit",
           }}
-        >
-          <h3>{itemInfo.name}</h3>
-          {/* <img
-            src={getTypeIcon(itemInfo.typeId)}
-            alt={getTypeIcon(itemInfo.typeId)}
-            height="115"
-            style={{ filter: "drop-shadow(0 0 10px black)" }}
-          />
-          <img
-            src={getTypeIcon(itemInfo.weaponType)}
-            alt={getTypeIcon(itemInfo.weaponType)}
-            height="115"
-            style={{ filter: "drop-shadow(0 0 10px black)" }}
-          />
-          <div id="stars-container">
-            {Array(itemInfo.rarity)
-              .fill()
-              .map((e, i) => {
-                return starPrinter(i);
-              })}
-          </div> */}
+        />
+        <div id="stars-container">
+          {Array(itemInfo.rarity)
+            .fill()
+            .map((e, i) => {
+              return starPrinter(i);
+            })}
         </div>
-      ) : (
-        <div id="weapon-info">
-          <h3>{itemInfo.name}</h3>
+      </div>
 
-          <img
-            src={getTypeIcon(itemInfo.typeId)}
-            alt={getTypeIcon(itemInfo.typeId)}
-            height="115"
-          />
-          <div id="stars-container">
-            {Array(itemInfo.rarity)
-              .fill()
-              .map((e, i) => {
-                return starPrinter(i);
-              })}
-          </div>
-          <img
-            src={itemInfo.portrait}
-            alt={itemInfo.portrait}
-            style={item.count === 0 ? { filter: "brightness(0)" } : {}}
-            height={`${
-              getType(itemInfo.typeId) !== "Catalyst" ? "400" : undefined
-            }`}
-            width={`${
-              getType(itemInfo.typeId) === "Catalyst" ? "250" : undefined
-            }`}
-          />
-        </div>
-      )}
       <h3>Count: {item.count}</h3>
       {}
       {isChar(item.itemId) ? (

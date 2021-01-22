@@ -6,6 +6,7 @@ export default function CollectionIcons({
   activeFilters,
   activeItem,
   setActiveItem,
+  setAnimating,
   stash,
   setStash,
   sortOrder,
@@ -130,11 +131,19 @@ export default function CollectionIcons({
   };
 
   const sortRarity = (a, b) => {
-    return getStars(b.itemId) - getStars(a.itemId);
+    let bVal = getStars(b.itemId) * 10;
+    if (allChars.includes(b.itemId)) bVal++;
+    let aVal = getStars(a.itemId) * 10;
+    if (allChars.includes(a.itemId)) aVal++;
+    return bVal - aVal;
   };
 
   const sortName = (a, b) => {
-    return getName(a.itemId).localeCompare(getName(b.itemId));
+    let bVal = b.count * 10 + getStars(b.itemId);
+    if (allChars.includes(b.itemId)) bVal++;
+    let aVal = a.count * 10 + getStars(a.itemId);
+    if (allChars.includes(a.itemId)) aVal++;
+    return bVal - aVal;
   };
 
   useEffect(() => {
@@ -142,10 +151,10 @@ export default function CollectionIcons({
     if (activeFilters.includes("Default"))
       if (sortOrder) setStash(originalStash);
       else setStash(originalStash.reverse());
-    else if (activeFilters.includes("Rarity")) {
+    else if (activeFilters.includes("By Rarity")) {
       if (sortOrder) setStash(originalStash.sort(sortRarity));
       else setStash(originalStash.sort(sortRarity).reverse());
-    } else if (activeFilters.includes("A-Z")) {
+    } else if (activeFilters.includes("By Count")) {
       if (sortOrder) setStash(originalStash.sort(sortName));
       else setStash(originalStash.sort(sortName).reverse());
     }
@@ -264,6 +273,14 @@ export default function CollectionIcons({
     );
   };
 
+  const [multiclick, setMulticlick] = useState();
+
+  const handleMultiClick = (item) => {
+    clearTimeout(multiclick);
+    setAnimating(true);
+    setMulticlick(setTimeout(() => setAnimating(false), 500));
+  };
+
   return (
     <section id="main-collection-section">
       {activeFilters.includes("Unlocked") ? (
@@ -288,6 +305,9 @@ export default function CollectionIcons({
                   }}
                   stars={getStars(item.itemId)}
                   onClick={() => {
+                    setActiveItem((prevItem) =>
+                      prevItem === item ? undefined : handleMultiClick(item)
+                    );
                     setActiveItem(item);
                   }}
                 >
@@ -310,6 +330,7 @@ export default function CollectionIcons({
                       width: `${resize.getWidth(30)}px`,
                       marginRight: `${resize.getWidth(5)}px`,
                     }}
+                    draggable="false"
                   />
                 </div>
               </div>
@@ -338,6 +359,9 @@ export default function CollectionIcons({
                     filter: "brightness(0)",
                   }}
                   onClick={() => {
+                    setActiveItem((prevItem) =>
+                      prevItem === item ? undefined : handleMultiClick()
+                    );
                     setActiveItem(item);
                   }}
                 />

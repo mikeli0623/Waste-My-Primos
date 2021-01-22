@@ -61,10 +61,24 @@ input {
 
 .navbar {
   margin: 0 auto;
+  z-index: 100;
 }
 
-.footer {
+#footer {
   margin: 0 auto;
+  z-index: 100;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 }
 
 .transparent {
@@ -87,7 +101,8 @@ input {
   font-weight: bold;
   text-align: center;
   user-select: none;
-  transition: all 0.2s;
+  transition: box-shadow 0.2s, background-color 0.2s, color 0.2s, width 0.2s,
+    height 0.2s, line-height 0.2s;
 }
 
 .custom-button:hover {
@@ -106,7 +121,7 @@ input {
   border: 5px solid rgb(173, 181, 191);
   background-color: #ebe7d6;
   border-radius: 50%;
-  transition: all 0.2s ease-out;
+  transition: border 0.2s, transform 0.2s, filter 0.2s, width 0.2s, height 0.2s;
 }
 
 #close-button-type {
@@ -114,7 +129,7 @@ input {
   height: inherit;
   background-position: center;
   background-repeat: no-repeat;
-  transition: all 0.2s ease-out;
+  transition: width 0.2s, height 0.2s;
 }
 
 #close-button:hover {
@@ -135,7 +150,8 @@ input {
   align-items: center;
   border: 2px solid rgb(64, 74, 81);
   justify-content: flex-start;
-  transition: all 0.2s;
+  transition: transform 0.2s, border 0.2s, background-color 0.2s, color 0.2s,
+    width 0.2s, height 0.2s;
   background-color: rgb(36, 49, 62);
 }
 
@@ -154,7 +170,7 @@ input {
 
 .checkbox p {
   margin: 0;
-  transition: all 0.2s;
+  transition: font-size 0.2s, color 0.2s;
 }
 
 .checkbox.active p {
@@ -168,12 +184,12 @@ input {
   border: 2px solid rgb(77, 83, 87);
   appearance: none;
   margin-left: 5%;
-  transition: all 0.2s;
+  transition: border 0.2s, transform 0.2s, margin 0.2s, height 0.2s, width 0.2s;
 }
 
 .checkbox input[type="checkbox"]:checked {
-  border-radius: 0;
   border: 3px solid rgb(130, 214, 28);
+  border-radius: 0;
   border-top: none;
   border-left: none;
   transform: rotate(45deg);
@@ -283,44 +299,3 @@ input {
     margin-bottom: 3px;
   }
 }
-
-/* #test {
-  position: absolute;
-  top: calc(50% - 20px);
-  left: calc(50% - 20px);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: none;
-  box-shadow: 0 0 100px 200px rgb(54, 70, 134, 1);
-  transition: all 0.2s;
-}
-
-#test:hover {
-  animation: test-animation 5s 0s normal forwards;
-}
-
-@keyframes test-animation {
-  10% {
-    box-shadow: 0 0 100px 100px white;
-  }
-  20% {
-    box-shadow: 0 0 100px 129px white;
-  }
-  30% {
-    box-shadow: 0 0 100px 140px white;
-  }
-  40% {
-    box-shadow: 0 0 100px 160px white;
-  }
-  50% {
-    box-shadow: 0 0 100px 180px white;
-  }
-  60% {
-    box-shadow: 0 0 100px 200px white;
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 100px 220px white;
-  }
-} */

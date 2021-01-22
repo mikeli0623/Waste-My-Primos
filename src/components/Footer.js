@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer = () => {
+const Footer = ({ resize }) => {
   return (
     <section id="footer">
       <div id="footer-text" style={{ textShadow: "1px 0 5px black" }}>
@@ -44,7 +44,12 @@ const Footer = () => {
           www.flaticon.com.
         </a>
       </div>
-      {/* <img src="../assets/img/misc/GitHub-Mark-32px.png" /> */}
+      <a
+        href="https://github.com/hbhhi/Waste-My-Primos"
+        style={{ position: "absolute", bottom: "10px", right: "10px" }}
+      >
+        {/* <img src="../assets/img/misc/github-icon.webp" alt="github-icon" /> */}
+      </a>
     </section>
   );
 };

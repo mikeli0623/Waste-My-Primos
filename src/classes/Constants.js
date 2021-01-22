@@ -1,16 +1,6 @@
-export const type = {
-  hydro: "../assets/img/misc/hydro.webp",
-  pyro: "../assets/img/misc/pyro.webp",
-  geo: "../assets/img/misc/geo.webp",
-  electro: "../assets/img/misc/electro.webp",
-  dendro: "../assets/img/misc/dendro.webp",
-  cryo: "../assets/img/misc/cryo.webp",
-  anemo: "../assets/img/misc/anemo.webp",
-  bow: "../assets/img/misc/bow.webp",
-  catalyst: "../assets/img/misc/catalyst.webp",
-  claymore: "../assets/img/misc/claymore.webp",
-  polearm: "../assets/img/misc/polearm.webp",
-  sword: "../assets/img/misc/sword.webp",
+export const pageTransition = {
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
 export const baseThreeStar = [

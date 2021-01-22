@@ -2,6 +2,22 @@ import React from "react";
 import Button from "../Button";
 import Checkbox from "../Checkbox";
 
+const AllButton = ({ onClick, resize }) => {
+  return (
+    <div
+      className="all-button"
+      onClick={onClick}
+      style={{
+        width: `${resize.getWidth(85)}px`,
+        height: `${resize.getHeight(25, 85)}px`,
+        fontSize: `${resize.getWidth(14)}px`,
+      }}
+    >
+      All
+    </div>
+  );
+};
+
 const ClearButton = ({ onClick, resize }) => {
   return (
     <div
@@ -10,7 +26,7 @@ const ClearButton = ({ onClick, resize }) => {
       style={{
         width: `${resize.getWidth(85)}px`,
         height: `${resize.getHeight(25, 85)}px`,
-        fontSize: `${resize.getWidth(15)}px`,
+        fontSize: `${resize.getWidth(14)}px`,
       }}
     >
       <div
@@ -81,17 +97,24 @@ const Filter = ({
   const handleUnique = (e, filters) => {
     let activeFiltersClone = [...activeFilters];
     const target = e.target.id;
-
     activeFiltersClone = activeFiltersClone.filter(
       (filter) => !filters.includes(filter)
     );
-
     activeFiltersClone.push(target);
     setActiveFilters(activeFiltersClone);
   };
 
   const checked = (tags) =>
     activeFilters.filter((filter) => tags.includes(filter));
+
+  const handleAll = (tags) => {
+    let activeFiltersClone = [...activeFilters];
+    tags.map((tag) => {
+      if (!activeFiltersClone.includes(tag)) activeFiltersClone.push(tag);
+      return tag;
+    });
+    setActiveFilters(activeFiltersClone);
+  };
 
   const handleClear = (tags) => {
     let activeFiltersClone = [...activeFilters];
@@ -121,9 +144,11 @@ const Filter = ({
       <section id="subfilter-section">
         <SubFilter
           heading="Order"
-          tags={["Default", "Rarity", "A-Z"]}
-          checked={checked(["Default", "Rarity", "A-Z"])}
-          onChange={(e) => handleUnique(e, ["Default", "Rarity", "A-Z"])}
+          tags={["Default", "By Rarity", "By Count"]}
+          checked={checked(["Default", "By Rarity", "By Count"])}
+          onChange={(e) =>
+            handleUnique(e, ["Default", "By Rarity", "By Count"])
+          }
           sideButton={
             <Button
               size={{
@@ -160,19 +185,34 @@ const Filter = ({
           ])}
           onChange={handleCheckbox}
           sideButton={
-            <ClearButton
-              onClick={() =>
-                handleClear([
-                  "Anemo",
-                  "Cryo",
-                  "Electro",
-                  "Geo",
-                  "Hydro",
-                  "Pyro",
-                ])
-              }
-              resize={resize}
-            />
+            <section className="filter-button-pair">
+              <AllButton
+                onClick={() =>
+                  handleAll([
+                    "Anemo",
+                    "Cryo",
+                    "Electro",
+                    "Geo",
+                    "Hydro",
+                    "Pyro",
+                  ])
+                }
+                resize={resize}
+              />
+              <ClearButton
+                onClick={() =>
+                  handleClear([
+                    "Anemo",
+                    "Cryo",
+                    "Electro",
+                    "Geo",
+                    "Hydro",
+                    "Pyro",
+                  ])
+                }
+                resize={resize}
+              />
+            </section>
           }
           resize={resize}
         />
@@ -182,12 +222,26 @@ const Filter = ({
           checked={checked(["Sword", "Claymore", "Bow", "Polearm", "Catalyst"])}
           onChange={handleCheckbox}
           sideButton={
-            <ClearButton
-              onClick={() =>
-                handleClear(["Sword", "Claymore", "Bow", "Polearm", "Catalyst"])
-              }
-              resize={resize}
-            />
+            <section className="filter-button-pair">
+              <AllButton
+                onClick={() =>
+                  handleAll(["Sword", "Claymore", "Bow", "Polearm", "Catalyst"])
+                }
+                resize={resize}
+              />
+              <ClearButton
+                onClick={() =>
+                  handleClear([
+                    "Sword",
+                    "Claymore",
+                    "Bow",
+                    "Polearm",
+                    "Catalyst",
+                  ])
+                }
+                resize={resize}
+              />
+            </section>
           }
           resize={resize}
         />
@@ -197,10 +251,16 @@ const Filter = ({
           checked={checked(["5-Star", "4-Star", "3-Star"])}
           onChange={handleCheckbox}
           sideButton={
-            <ClearButton
-              onClick={() => handleClear(["5-Star", "4-Star", "3-Star"])}
-              resize={resize}
-            />
+            <section className="filter-button-pair">
+              <AllButton
+                onClick={() => handleAll(["5-Star", "4-Star", "3-Star"])}
+                resize={resize}
+              />
+              <ClearButton
+                onClick={() => handleClear(["5-Star", "4-Star", "3-Star"])}
+                resize={resize}
+              />
+            </section>
           }
           resize={resize}
         />
@@ -210,10 +270,16 @@ const Filter = ({
           checked={checked(["Unlocked", "Locked", "Count"])}
           onChange={handleCheckbox}
           sideButton={
-            <ClearButton
-              onClick={() => handleClear(["Unlocked", "Locked", "Count"])}
-              resize={resize}
-            />
+            <section className="filter-button-pair">
+              <AllButton
+                onClick={() => handleAll(["Unlocked", "Locked", "Count"])}
+                resize={resize}
+              />
+              <ClearButton
+                onClick={() => handleClear(["Unlocked", "Locked", "Count"])}
+                resize={resize}
+              />
+            </section>
           }
           resize={resize}
         />

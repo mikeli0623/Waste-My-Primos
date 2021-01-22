@@ -113,7 +113,10 @@ const MainBanner = ({
   };
 
   return (
-    <section id="main-banner-section">
+    <section
+      id="main-banner-section"
+      style={{ height: `${resize.getHeight(550, 1100)}` }}
+    >
       {arrows(true)}
       <Carousel
         activeIndex={allBannersAbbr.indexOf(banners[activeIndex])}

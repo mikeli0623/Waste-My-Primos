@@ -5,10 +5,10 @@ import HistoryTable from "./HistoryTable";
 import HistoryDropdown from "./HistoryDropdown";
 import HistoryPagination from "./HistoryPagination";
 import CloseButton from "../CloseButton";
+import { motion } from "framer-motion";
+import { pageTransition } from "../../classes/Constants";
 
 const HistoryContent = ({ location }) => {
-  document.body.style.background = "rgb(235, 235, 235)";
-
   const MAX_PAG = 10;
 
   const history = location.state ? location.state.history : [[], [], []];
@@ -56,7 +56,19 @@ const HistoryContent = ({ location }) => {
     resize.windowWidth < 425 ? {} : { fontSize: `${resize.getWidth(size)}px` };
 
   return (
-    <section className="content-section">
+    <motion.section
+      className="content-section"
+      initial="out"
+      exit="out"
+      animate="in"
+      variants={pageTransition}
+    >
+      <div
+        className="background"
+        style={{
+          background: "rgb(235, 235, 235)",
+        }}
+      />
       <section id="collection-top-section">
         <div id="history-wish-select">
           <p
@@ -97,7 +109,7 @@ const HistoryContent = ({ location }) => {
         maxPag={Math.ceil(history[selectedIndex].length / MAX_PAG)}
         resize={resize}
       />
-    </section>
+    </motion.section>
   );
 };
 

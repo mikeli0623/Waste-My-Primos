@@ -17,7 +17,7 @@
 }
 
 .main-banner {
-  transition: all 0.2s;
+  transition: height 0.2s, width 0.2s;
 }
 
 #bottom-section-main {
@@ -32,7 +32,7 @@
 }
 
 .drop-down img {
-  transition: all 0.2s;
+  transition: transform 0.2s, width 0.2s, height 0.2s;
 }
 
 .drop-down img:hover {
@@ -46,7 +46,7 @@
 
 .mini-banner {
   transform: scale(0.9);
-  transition: all 0.2s, transform ease-in 0.1s;
+  transition: width 0.2s, transform 0.1s, height 0.2s;
 }
 
 .mini-banner:hover,
@@ -69,32 +69,30 @@
   background-color: #626f7f;
   border-radius: 50px;
   box-shadow: 0 0 0 3px #637c95;
-  transition: all 0.2s;
+  transition: width 0.2s, height 0.2s;
 }
 
 .stat > h6 {
   margin: 0;
-  transition: all 0.2s;
+  transition: font-size 0.2s;
 }
 
 .money-stat-container {
   margin-left: 10%;
 }
 
-.money-stat-container img {
-  transition: all 0.2s;
-}
-
+.money-stat-container img,
 .primo-stat-container img {
-  transition: all 0.2s;
+  transition: width 0.2s, height 0.2s;
 }
 
 #carousel-control-prev,
 #carousel-control-next {
   position: absolute;
-  transition: all 0.2s;
+  transition: margin 0.2s, width 0.2s, height 0.2s;
   filter: drop-shadow(0 0 2px rgba(102, 100, 100, 0.8));
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 #carousel-control-prev {
@@ -120,7 +118,7 @@
 }
 
 .wish-buttons img {
-  transition: all 0.2s;
+  transition: width 0.2s, filter 0.2s, height 0.2s;
 }
 
 .wish-buttons img:active {
@@ -397,7 +395,6 @@
   #carousel-control-prev,
   #carousel-control-next {
     position: absolute;
-    transition: all 0.2s;
     height: 32px;
     width: 23.27px;
     background-size: 23.27px 32px;

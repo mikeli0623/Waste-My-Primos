@@ -1,6 +1,11 @@
 import "./css/App.css";
 import React, { useState, useEffect, useMemo } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Main from "./components/main/Main";
 import Collection from "./components/collection/Collection";
 import Login from "./components/login/Login";
@@ -8,9 +13,20 @@ import HistoryContent from "./components/history/HistoryContent";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { UserContext } from "./components/UserContext";
+import { AnimatePresence } from "framer-motion";
 
 const App = () => {
+  return (
+    <Router>
+      <Test />
+    </Router>
+  );
+};
+
+const Test = () => {
   const [user, setUser] = useState(null);
+
+  const location = useLocation();
 
   const userValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -40,12 +56,11 @@ const App = () => {
     getWidth,
     getHeight,
   };
-
   return (
-    <Router>
-      <div className="App">
-        <NavBar resize={resize} />
-        <Switch>
+    <div className="App">
+      <NavBar resize={resize} />
+      <AnimatePresence exitBeforeEnter>
+        <Switch location={location} key={location.pathname}>
           <UserContext.Provider value={userValue}>
             <Route path="/" exact component={Main} />
             <Route path="/myCollection" component={Collection} />
@@ -53,9 +68,9 @@ const App = () => {
             <Route path="/history" component={HistoryContent} />
           </UserContext.Provider>
         </Switch>
-        <Footer />
-      </div>
-    </Router>
+      </AnimatePresence>
+      <Footer resize={resize} />
+    </div>
   );
 };
 

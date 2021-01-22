@@ -14,7 +14,7 @@ const NavBar = ({ resize }) => {
             resize.windowWidth <= 425
               ? ""
               : `${resize.getWidth(6)}px ${resize.getHeight(16, 8)}px`,
-          transition: "all 0.2s",
+          transition: "height 0.2s, width 0.2s",
         }}
       >
         <NavbarBrand

@@ -9,9 +9,6 @@ const WishSingle = ({
   typeData,
   resize,
 }) => {
-  document.querySelector(".navbar").style.visibility = "hidden";
-  document.querySelector("#footer").style.visibility = "hidden";
-
   const [state, setState] = useState({
     singleWishIndex: 0,
     animating: false,

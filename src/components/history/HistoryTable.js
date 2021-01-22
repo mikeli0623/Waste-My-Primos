@@ -7,40 +7,52 @@ const HistoryTable = ({ history, resize }) => {
   const [charData, setCharData] = useState([]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     axios
-      .get("http://localhost:3000/characters/")
+      .get("http://localhost:3000/characters/", { cancelToken: source.token })
       .then((response) => {
         setCharData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   const [weaponData, setWeaponData] = useState([]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     axios
-      .get("http://localhost:3000/weapons/")
+      .get("http://localhost:3000/weapons/", { cancelToken: source.token })
       .then((response) => {
         setWeaponData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   const [typeData, setTypeData] = useState([]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     axios
-      .get("http://localhost:3000/types/")
+      .get("http://localhost:3000/types/", { cancelToken: source.token })
       .then((response) => {
         setTypeData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   const getName = (item) => {
@@ -68,7 +80,6 @@ const HistoryTable = ({ history, resize }) => {
           if (item === datum._id) typeId = datum.type;
           return datum;
         });
-    console.log(typeId);
     let type = "";
     typeData.map((datum) => {
       if (typeId === datum._id) type = datum.type;

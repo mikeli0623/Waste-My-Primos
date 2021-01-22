@@ -1,10 +1,6 @@
 import { baseThreeStar } from "./Constants";
 
-const randItem = (pool) => {
-  console.log(pool);
-  return pool[Math.floor(Math.random() * pool.length)];
-};
-
+const randItem = (pool) => pool[Math.floor(Math.random() * pool.length)];
 export const CalcWish = (
   currentBanner,
   activeBanners,

@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import Filter from "./Filter";
 import Info from "./Info";
 import CollectionIcons from "./CollectionIcons";
+import { motion } from "framer-motion";
+import { pageTransition } from "../../classes/Constants";
 
 const Collections = () => {
-  document.body.style.background = "rgb(235, 235, 235)";
-
   const [stash, setStash] = useState(
     JSON.parse(sessionStorage.getItem("stash")) || []
   );
 
   const [sortOrder, setSortOrder] = useState(true);
+
+  const [animating, setAnimating] = useState(false);
 
   const [searchItem, setSearchItem] = useState("");
 
@@ -31,6 +33,8 @@ const Collections = () => {
     "5-Star",
     "4-Star",
     "3-Star",
+    "Unlocked",
+    "Locked",
   ]);
 
   const [activeItem, setActiveItem] = useState(
@@ -38,20 +42,6 @@ const Collections = () => {
       ? stash.filter((item) => item.count > 0)[0]
       : stash[0]
   );
-
-  useEffect(() => {
-    let filtersClone = [...activeFilters];
-    let empty = true;
-    for (const item of stash) {
-      if (item.count !== 0) {
-        empty = false;
-        break;
-      }
-    }
-    if (empty) filtersClone.push("Locked");
-    else filtersClone.push("Unlocked");
-    setActiveFilters([...filtersClone]);
-  }, []);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -81,13 +71,26 @@ const Collections = () => {
   };
 
   return (
-    <section className="content-section">
+    <motion.section
+      className="content-section"
+      initial="out"
+      exit="out"
+      animate="in"
+      variants={pageTransition}
+    >
+      <div
+        className="background"
+        style={{
+          background: "rgb(235, 235, 235)",
+        }}
+      />
       <section id="collection-content">
-        <Info item={activeItem} resize={resize} />
+        <Info item={activeItem} animating={animating} resize={resize} />
         <CollectionIcons
           activeFilters={activeFilters}
           stash={stash}
           setStash={setStash}
+          setAnimating={setAnimating}
           sortOrder={sortOrder}
           activeItem={activeItem}
           setActiveItem={setActiveItem}
@@ -103,7 +106,7 @@ const Collections = () => {
           resize={resize}
         />
       </section>
-    </section>
+    </motion.section>
   );
 };
 

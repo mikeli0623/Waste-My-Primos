@@ -9,11 +9,11 @@ import {
   Container,
   Col,
 } from "reactstrap";
+import { pageTransition } from "../../classes/Constants";
 import { UserContext } from "../UserContext";
+import { motion } from "framer-motion";
 
 const Login = () => {
-  document.body.style.background = "rgb(235, 235, 235)";
-
   const { user, setUser } = useContext(UserContext);
 
   // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -63,7 +63,19 @@ const Login = () => {
   };
 
   return (
-    <section className="content-section">
+    <motion.section
+      className="content-section"
+      initial="out"
+      exit="out"
+      animate="in"
+      variants={pageTransition}
+    >
+      <div
+        className="background"
+        style={{
+          background: "rgb(235, 235, 235)",
+        }}
+      />
       <Container
         className="login-container"
         style={{ backgroundColor: "black" }}
@@ -176,7 +188,7 @@ const Login = () => {
           </form>
         </div>
       </container> */}
-    </section>
+    </motion.section>
   );
 };
 

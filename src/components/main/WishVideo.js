@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Spinner } from "reactstrap";
 
 const WishVideo = ({ src, onEnded, resize }) => {
-  document.querySelector(".navbar").style.visibility = "hidden";
-  document.querySelector("#footer").style.visibility = "hidden";
-
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 

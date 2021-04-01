@@ -14,5 +14,6 @@ https://wastemyprimos.web.app/
 
 # To Do
 - actual server implementation with Heroku
+- pity counter
 - portrait displays for collection
 - login feature to save sessions

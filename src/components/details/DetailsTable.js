@@ -1,31 +1,9 @@
 import React from "react";
-import { allChars } from "../../classes/Constants";
+import { allChars, json } from "../../classes/Constants";
 import { Table } from "reactstrap";
 
-const DetailsTable = ({
-  banner,
-  rateUp = [],
-  charData,
-  weaponData,
-  resize,
-}) => {
+const DetailsTable = ({ banner, rateUp = [], resize }) => {
   const isChar = (item) => allChars.includes(item);
-
-  const getName = (item) => {
-    let name = "";
-    isChar(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        });
-    return name;
-  };
-
-  console.log(banner);
 
   const fontSize =
     resize.windowWidth < 425
@@ -42,21 +20,29 @@ const DetailsTable = ({
               {rateUp.includes(banner[index * 2]) ? (
                 <>
                   <img src="../assets/img/misc/uparrow.png" />
-                  {getName(banner[index * 2])}
+                  {json.getName(banner[index * 2])}
                 </>
               ) : (
-                getName(banner[index * 2])
+                json.getName(banner[index * 2])
               )}
             </td>
-            <td>{isChar(banner[index * 2 + 1]) ? "Character" : "Weapon"}</td>
+            <td>
+              {banner[index * 2 + 1] == null
+                ? ""
+                : isChar(banner[index * 2 + 1])
+                ? "Character"
+                : "Weapon"}
+            </td>
             <td>
               {rateUp.includes(banner[index * 2 + 1]) ? (
                 <>
                   <img src="../assets/img/misc/uparrow.png" />
-                  {getName(banner[index * 2 + 1])}
+                  {json.getName(banner[index * 2 + 1])}
                 </>
+              ) : banner[index * 2 + 1] == null ? (
+                ""
               ) : (
-                getName(banner[index * 2 + 1])
+                json.getName(banner[index * 2 + 1])
               )}
             </td>
           </>

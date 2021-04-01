@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { allChars } from "../../classes/Constants";
-import axios from "axios";
+import { allChars, json, type } from "../../classes/Constants";
 
 export default function CollectionIcons({
   activeFilters,
@@ -14,135 +13,18 @@ export default function CollectionIcons({
   searchItem,
   resize,
 }) {
-  const [charData, setCharData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/characters/", { cancelToken: source.token })
-      .then((response) => {
-        setCharData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const [weaponData, setWeaponData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/weapons/", { cancelToken: source.token })
-      .then((response) => {
-        setWeaponData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const [typeData, setTypeData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/types/", { cancelToken: source.token })
-      .then((response) => {
-        setTypeData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const getTypeIcon = (item) => {
-    let typeId = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) typeId = datum.vision;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) typeId = datum.type;
-          return datum;
-        });
-    let typeIcon = "";
-    typeData.map((datum) => {
-      if (typeId === datum._id) typeIcon = datum.location;
-      return datum;
-    });
-    return typeIcon;
-  };
-
-  const getType = (item) => {
-    let typeId = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) typeId = datum.vision;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) typeId = datum.type;
-          return datum;
-        });
-    let type = "";
-    typeData.map((datum) => {
-      if (typeId === datum._id) type = datum.type;
-      return datum;
-    });
-    return type;
-  };
-
-  const getStars = (item) => {
-    let stars = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) stars = datum.rarity;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) stars = datum.rarity;
-          return datum;
-        });
-    return stars;
-  };
-
-  const getName = (item) => {
-    let name = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        });
-    return name;
-  };
-
   const sortRarity = (a, b) => {
-    let bVal = getStars(b.itemId) * 10;
+    let bVal = json.getStars(b.itemId) * 10;
     if (allChars.includes(b.itemId)) bVal++;
-    let aVal = getStars(a.itemId) * 10;
+    let aVal = json.getStars(a.itemId) * 10;
     if (allChars.includes(a.itemId)) aVal++;
     return bVal - aVal;
   };
 
   const sortName = (a, b) => {
-    let bVal = b.count * 10 + getStars(b.itemId);
+    let bVal = b.count * 10 + json.getStars(b.itemId);
     if (allChars.includes(b.itemId)) bVal++;
-    let aVal = a.count * 10 + getStars(a.itemId);
+    let aVal = a.count * 10 + json.getStars(a.itemId);
     if (allChars.includes(a.itemId)) aVal++;
     return bVal - aVal;
   };
@@ -161,67 +43,58 @@ export default function CollectionIcons({
     }
   }, [activeFilters, sortOrder]);
 
-  const getThumb = (item) => {
-    let thumb = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) thumb = datum.thumb;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) thumb = datum.thumb;
-          return datum;
-        });
-    return thumb;
-  };
-
   // kill me
   const handleFilterUnlocked = (item) => {
     return (
       item.count > 0 &&
       (searchItem !== ""
-        ? getName(item.itemId).toLowerCase().includes(searchItem.toLowerCase())
+        ? json
+            .getName(item.itemId)
+            .toLowerCase()
+            .includes(searchItem.toLowerCase())
         : true) &&
       (!activeFilters.includes("Pyro")
-        ? getType(item.itemId) !== "Pyro"
+        ? json.getType(item.itemId) !== "Pyro"
         : true) &&
       (!activeFilters.includes("Anemo")
-        ? getType(item.itemId) !== "Anemo"
+        ? json.getType(item.itemId) !== "Anemo"
         : true) &&
       (!activeFilters.includes("Cryo")
-        ? getType(item.itemId) !== "Cryo"
+        ? json.getType(item.itemId) !== "Cryo"
         : true) &&
       (!activeFilters.includes("Electro")
-        ? getType(item.itemId) !== "Electro"
+        ? json.getType(item.itemId) !== "Electro"
         : true) &&
       (!activeFilters.includes("Geo")
-        ? getType(item.itemId) !== "Geo"
+        ? json.getType(item.itemId) !== "Geo"
         : true) &&
       (!activeFilters.includes("Hydro")
-        ? getType(item.itemId) !== "Hydro"
+        ? json.getType(item.itemId) !== "Hydro"
         : true) &&
       (!activeFilters.includes("Sword")
-        ? getType(item.itemId) !== "Sword"
+        ? json.getType(item.itemId) !== "Sword"
         : true) &&
       (!activeFilters.includes("Claymore")
-        ? getType(item.itemId) !== "Claymore"
+        ? json.getType(item.itemId) !== "Claymore"
         : true) &&
       (!activeFilters.includes("Bow")
-        ? getType(item.itemId) !== "Bow"
+        ? json.getType(item.itemId) !== "Bow"
         : true) &&
       (!activeFilters.includes("Polearm")
-        ? getType(item.itemId) !== "Polearm"
+        ? json.getType(item.itemId) !== "Polearm"
         : true) &&
       (!activeFilters.includes("Catalyst")
-        ? getType(item.itemId) !== "Catalyst"
+        ? json.getType(item.itemId) !== "Catalyst"
         : true) &&
       (!activeFilters.includes("5-Star")
-        ? getStars(item.itemId) !== 5
+        ? json.getStars(item.itemId) !== 5
         : true) &&
       (!activeFilters.includes("4-Star")
-        ? getStars(item.itemId) !== 4
+        ? json.getStars(item.itemId) !== 4
         : true) &&
-      (!activeFilters.includes("3-Star") ? getStars(item.itemId) !== 3 : true)
+      (!activeFilters.includes("3-Star")
+        ? json.getStars(item.itemId) !== 3
+        : true)
     );
   };
 
@@ -229,48 +102,53 @@ export default function CollectionIcons({
     return (
       item.count === 0 &&
       (searchItem !== ""
-        ? getName(item.itemId).toLowerCase().includes(searchItem.toLowerCase())
+        ? json
+            .getName(item.itemId)
+            .toLowerCase()
+            .includes(searchItem.toLowerCase())
         : true) &&
       (!activeFilters.includes("Pyro")
-        ? getType(item.itemId) !== "Pyro"
+        ? json.getType(item.itemId) !== "Pyro"
         : true) &&
       (!activeFilters.includes("Anemo")
-        ? getType(item.itemId) !== "Anemo"
+        ? json.getType(item.itemId) !== "Anemo"
         : true) &&
       (!activeFilters.includes("Cryo")
-        ? getType(item.itemId) !== "Cryo"
+        ? json.getType(item.itemId) !== "Cryo"
         : true) &&
       (!activeFilters.includes("Electro")
-        ? getType(item.itemId) !== "Electro"
+        ? json.getType(item.itemId) !== "Electro"
         : true) &&
       (!activeFilters.includes("Geo")
-        ? getType(item.itemId) !== "Geo"
+        ? json.getType(item.itemId) !== "Geo"
         : true) &&
       (!activeFilters.includes("Hydro")
-        ? getType(item.itemId) !== "Hydro"
+        ? json.getType(item.itemId) !== "Hydro"
         : true) &&
       (!activeFilters.includes("Sword")
-        ? getType(item.itemId) !== "Sword"
+        ? json.getType(item.itemId) !== "Sword"
         : true) &&
       (!activeFilters.includes("Claymore")
-        ? getType(item.itemId) !== "Claymore"
+        ? json.getType(item.itemId) !== "Claymore"
         : true) &&
       (!activeFilters.includes("Bow")
-        ? getType(item.itemId) !== "Bow"
+        ? json.getType(item.itemId) !== "Bow"
         : true) &&
       (!activeFilters.includes("Polearm")
-        ? getType(item.itemId) !== "Polearm"
+        ? json.getType(item.itemId) !== "Polearm"
         : true) &&
       (!activeFilters.includes("Catalyst")
-        ? getType(item.itemId) !== "Catalyst"
+        ? json.getType(item.itemId) !== "Catalyst"
         : true) &&
       (!activeFilters.includes("5-Star")
-        ? getStars(item.itemId) !== 5
+        ? json.getStars(item.itemId) !== 5
         : true) &&
       (!activeFilters.includes("4-Star")
-        ? getStars(item.itemId) !== 4
+        ? json.getStars(item.itemId) !== 4
         : true) &&
-      (!activeFilters.includes("3-Star") ? getStars(item.itemId) !== 3 : true)
+      (!activeFilters.includes("3-Star")
+        ? json.getStars(item.itemId) !== 3
+        : true)
     );
   };
 
@@ -292,7 +170,7 @@ export default function CollectionIcons({
               <div
                 className="unlocked"
                 key={item.itemId + index}
-                stars={getStars(item.itemId)}
+                stars={json.getStars(item.itemId)}
                 active={activeItem.itemId === item.itemId ? "true" : "false"}
                 style={{
                   margin: `${resize.getWidth(5)}px`,
@@ -303,9 +181,9 @@ export default function CollectionIcons({
               >
                 <div
                   style={{
-                    backgroundImage: `url(${getThumb(item.itemId)})`,
+                    backgroundImage: `url(${json.getThumb(item.itemId)})`,
                   }}
-                  stars={getStars(item.itemId)}
+                  stars={json.getStars(item.itemId)}
                   onClick={() => {
                     setActiveItem((prevItem) =>
                       prevItem === item ? undefined : handleMultiClick(item)
@@ -326,8 +204,8 @@ export default function CollectionIcons({
                     <></>
                   )}
                   <img
-                    src={getTypeIcon(item.itemId)}
-                    alt={getTypeIcon(item.itemId)}
+                    src={type[json.getType(item.itemId)]}
+                    alt={json.getType(item.itemId)}
                     style={{
                       width: `${resize.getWidth(30)}px`,
                       marginRight: `${resize.getWidth(5)}px`,
@@ -358,7 +236,7 @@ export default function CollectionIcons({
               >
                 <div
                   style={{
-                    backgroundImage: `url(${getThumb(item.itemId)})`,
+                    backgroundImage: `url(${json.getThumb(item.itemId)})`,
                     filter: "brightness(0)",
                   }}
                   onClick={() => {

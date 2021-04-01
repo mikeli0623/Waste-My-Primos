@@ -168,7 +168,7 @@ const Info = ({ item, animating, loading, resize }) => {
   };
 
   return (
-    <section id="collection-info-section">
+    <section id="collection-info-section" style={{ visibility: "hidden" }}>
       <div
         style={{
           opacity: `${loading ? "0" : "1"}`,

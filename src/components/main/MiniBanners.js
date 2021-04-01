@@ -1,32 +1,9 @@
 import React from "react";
+import { json } from "../../classes/Constants";
 
-const MiniBanners = ({
-  bannersActive,
-  setActive,
-  activeIndex,
-  bannerData,
-  resize,
-}) => {
+const MiniBanners = ({ bannersActive, setActive, activeIndex, resize }) => {
   const selected = (index) =>
     bannersActive.indexOf(bannersActive[activeIndex]) === index;
-
-  const getMini = (banner) => {
-    let miniBanner = "";
-    bannerData.map((datum) => {
-      if (banner === datum._id) miniBanner = datum.miniBanner;
-      return datum;
-    });
-    return miniBanner;
-  };
-
-  const getMiniActive = (banner) => {
-    let miniActive = "";
-    bannerData.map((datum) => {
-      if (banner === datum._id) miniActive = datum.miniActive;
-      return datum;
-    });
-    return miniActive;
-  };
 
   const minis = bannersActive.map((banner, index) => {
     return (
@@ -35,8 +12,12 @@ const MiniBanners = ({
         className={`${
           selected(index) ? "mini-banner selected" : "mini-banner"
         }`}
-        src={selected(index) ? getMiniActive(banner) : getMini(banner)}
-        alt={selected(index) ? getMiniActive(banner) : getMini(banner)}
+        src={
+          selected(index) ? json.getMiniActive(banner) : json.getMini(banner)
+        }
+        alt={
+          selected(index) ? json.getMiniActive(banner) : json.getMini(banner)
+        }
         height={`${resize.getHeight(95, 188)}`}
         width={`${resize.getWidth(188)}`}
         onClick={() => setActive(index)}

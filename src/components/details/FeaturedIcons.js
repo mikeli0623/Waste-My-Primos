@@ -1,61 +1,7 @@
 import React from "react";
-import { allChars } from "../../classes/Constants";
+import { json, type } from "../../classes/Constants";
 
-const FeaturedIcon = ({
-  item,
-  charData,
-  weaponData,
-  typeData,
-  stars,
-  resize,
-}) => {
-  const getThumb = (item) => {
-    let thumb = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) thumb = datum.thumb;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) thumb = datum.thumb;
-          return datum;
-        });
-    return thumb;
-  };
-
-  const getTypeIcon = (item) => {
-    let typeId = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) typeId = datum.vision;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) typeId = datum.type;
-          return datum;
-        });
-    let typeIcon = "";
-    typeData.map((datum) => {
-      if (typeId === datum._id) typeIcon = datum.location;
-      return datum;
-    });
-    return typeIcon;
-  };
-
-  const getName = (item) => {
-    let name = "";
-    allChars.includes(item)
-      ? charData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        })
-      : weaponData.map((datum) => {
-          if (item === datum._id) name = datum.name;
-          return datum;
-        });
-    return name;
-  };
-
+const FeaturedIcon = ({ item, stars, resize }) => {
   return (
     <div
       className="icon-container"
@@ -76,13 +22,13 @@ const FeaturedIcon = ({
       >
         <div
           style={{
-            backgroundImage: `url(${getThumb(item)})`,
+            backgroundImage: `url(${json.getThumb(item)})`,
           }}
           stars={stars}
         >
           <img
-            src={getTypeIcon(item)}
-            alt={getTypeIcon(item)}
+            src={type[json.getType(item)]}
+            alt={json.getType(item)}
             style={{
               width: `${resize.getWidth(30)}px`,
             }}
@@ -97,11 +43,11 @@ const FeaturedIcon = ({
           marginLeft: `${resize.getWidth(140)}px`,
         }}
       >
-        {getName(item)}
+        {json.getName(item)}
       </p>
       <img
-        src={getTypeIcon(item)}
-        alt={getTypeIcon(item)}
+        src={type[json.getType(item)]}
+        alt={json.getType(item)}
         style={{
           marginRight: `${resize.getWidth(-30)}px`,
           marginBottom: `${resize.getWidth(-40)}px`,
@@ -112,27 +58,12 @@ const FeaturedIcon = ({
   );
 };
 
-const FeaturedIcons = ({
-  featured,
-  charData,
-  weaponData,
-  typeData,
-  stars,
-  resize,
-}) => {
+const FeaturedIcons = ({ featured, stars, resize }) => {
   return (
     <section className="icons-section">
       {featured.map((item) => {
         return (
-          <FeaturedIcon
-            key={item}
-            item={item}
-            charData={charData}
-            weaponData={weaponData}
-            typeData={typeData}
-            stars={stars}
-            resize={resize}
-          />
+          <FeaturedIcon key={item} item={item} stars={stars} resize={resize} />
         );
       })}
     </section>

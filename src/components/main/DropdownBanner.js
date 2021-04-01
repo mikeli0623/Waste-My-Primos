@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { allBannersAbbr } from "../../classes/Constants";
+import { allBannersAbbr, json } from "../../classes/Constants";
 import { Dropdown, DropdownToggle, DropdownMenu, Tooltip } from "reactstrap";
 
 const MiniTooltip = ({
@@ -35,28 +35,10 @@ const MiniTooltip = ({
     return toolTip[targetName] ? toolTip[targetName].tooltipOpen : false;
   };
 
-  const getMini = (banner) => {
-    let miniBanner = "";
-    bannerData.map((datum) => {
-      if (banner === datum._id) miniBanner = datum.miniBanner;
-      return datum;
-    });
-    return miniBanner;
-  };
-
-  const getTitle = (banner) => {
-    let title = "";
-    bannerData.map((datum) => {
-      if (banner === datum._id) title = datum.title;
-      return datum;
-    });
-    return title;
-  };
-
   return (
     <>
       <img
-        src={dropOpen ? getMini(miniBanner) : ""}
+        src={dropOpen ? json.getMini(miniBanner) : ""}
         alt={miniBanner}
         id={`mini-${index}`}
         onClick={() => (!animating ? onSelect(miniBanner) : undefined)}
@@ -74,7 +56,7 @@ const MiniTooltip = ({
           color: "antiquewhite",
         }}
       >
-        {getTitle(miniBanner)}
+        {json.getTitle(miniBanner)}
       </Tooltip>
     </>
   );

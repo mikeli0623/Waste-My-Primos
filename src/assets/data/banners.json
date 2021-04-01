@@ -1,5 +1,31 @@
 [	
 	{
+        "abbr": "hutao",
+        "title": "Moment of Bloom",
+        "mainBanner": "../assets/img/banner/hutao.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/hutao.webp",
+		"miniActive": "../assets/img/misc/mini-banners/hutao_active.webp" 
+	},
+    {
+        "abbr": "hutao_ei",
+        "mainBanner": "../assets/img/banner/hutao_ei.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/hutao_ei.webp",
+		"miniActive": "../assets/img/misc/mini-banners/hutao_ei_active.webp" 
+	},
+	{
+        "abbr": "xiao",
+        "title": "Invitation to Mundane Life",
+        "mainBanner": "../assets/img/banner/xiao.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/xiao.webp",
+		"miniActive": "../assets/img/misc/mini-banners/xiao_active.webp" 
+	},
+    {
+        "abbr": "xiao_ei",
+        "mainBanner": "../assets/img/banner/xiao_ei.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/xiao_ei.webp",
+		"miniActive": "../assets/img/misc/mini-banners/xiao_ei_active.webp" 
+	},
+	{
         "abbr": "ganyu",
         "title": "Adrift in the Harbor",
         "mainBanner": "../assets/img/banner/ganyu.webp",

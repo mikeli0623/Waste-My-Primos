@@ -21,7 +21,6 @@ import {
   allWeapons,
   pageTransition,
 } from "../../classes/Constants";
-import axios from "axios";
 import { motion } from "framer-motion";
 
 const bodyStyle = {
@@ -55,9 +54,9 @@ const Main = () => {
   );
 
   const [activeBanners, setActiveBanners] = useState([
-    "606404057a000b35e8589c4d",
-    "606403e57a000b35e8589c4c",
-    "5fff6b9b9d4d2c31707c5ec2",
+    "hutao",
+    "hutao_ei",
+    "standard",
   ]);
 
   const [prevBanner, setPrevBanner] = useState(undefined);
@@ -65,8 +64,10 @@ const Main = () => {
   const [bannerContent, setBannerContent] = useState([
     {
       banner: allBanners[0],
-      rateFive: 0.006,
-      rateFour: 0.051,
+      rateFive: 0.5,
+      rateFour: 1,
+      // rateFive: 0.006,
+      // rateFour: 0.051,
       guaranteeFive: sessionStorage.getItem("charGuaranteeFive") === "true",
       guaranteeFour: sessionStorage.getItem("charGuaranteeFour") === "true",
       pityFive: parseInt(sessionStorage.getItem("charPityFive")) || 0,
@@ -115,74 +116,6 @@ const Main = () => {
         break;
     }
   };
-
-  const [bannerData, setBannerData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/banners/", { cancelToken: source.token })
-      .then((response) => {
-        setBannerData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const [charData, setCharData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/characters/", { cancelToken: source.token })
-      .then((response) => {
-        setCharData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const [weaponData, setWeaponData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/weapons/", { cancelToken: source.token })
-      .then((response) => {
-        setWeaponData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  const [typeData, setTypeData] = useState([]);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-    axios
-      .get("http://localhost:3000/types/", { cancelToken: source.token })
-      .then((response) => {
-        setTypeData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => {
-      source.cancel();
-    };
-  }, []);
 
   // creates stash
   useEffect(() => {
@@ -353,7 +286,6 @@ const Main = () => {
                 changeBanner={changeBanner}
                 bannersActive={activeBanners}
                 animating={state.animating}
-                bannerData={bannerData}
                 resize={resize}
               />
             )}
@@ -363,7 +295,6 @@ const Main = () => {
                   changeBanner={changeBanner}
                   bannersActive={activeBanners}
                   animating={state.animating}
-                  bannerData={bannerData}
                   resize={resize}
                 />
                 <Stats primos={state.primos} resize={resize} />
@@ -376,7 +307,6 @@ const Main = () => {
               setActive={setActiveBanner}
               activeIndex={currentBannerIndex}
               changeBanner={changeBanner}
-              bannerData={bannerData}
               resize={resize}
             />
             {windowWidth <= 425 ? (
@@ -393,7 +323,6 @@ const Main = () => {
             prevBanner={prevBanner}
             activeIndex={currentBannerIndex}
             direction={direction}
-            bannerData={bannerData}
             resize={resize}
           />
           <section id="bottom-section-main">
@@ -509,9 +438,6 @@ const Main = () => {
             <WishSingle
               currentWish={state.currentWish}
               setContent={setContent}
-              charData={charData}
-              weaponData={weaponData}
-              typeData={typeData}
               resize={resize}
             />
           )}
@@ -533,9 +459,6 @@ const Main = () => {
         toggle={toggleModal}
         isMain={content === "main"}
         skipAll={state.skipVideo && state.skipSingle}
-        charData={charData}
-        weaponData={weaponData}
-        typeData={typeData}
         resize={resize}
       />
     </motion.section>

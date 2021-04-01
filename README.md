@@ -2,7 +2,7 @@
 Genshin Impact Wish Simulator
 
 # What is This?
-dakdadldma
+Greatest Genshin Impact Wish Simulator you'll ever see
 
 # How to Use
 - git clone

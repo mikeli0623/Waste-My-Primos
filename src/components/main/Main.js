@@ -64,10 +64,8 @@ const Main = () => {
   const [bannerContent, setBannerContent] = useState([
     {
       banner: allBanners[0],
-      rateFive: 0.5,
-      rateFour: 1,
-      // rateFive: 0.006,
-      // rateFour: 0.051,
+      rateFive: 0.006,
+      rateFour: 0.051,
       guaranteeFive: sessionStorage.getItem("charGuaranteeFive") === "true",
       guaranteeFour: sessionStorage.getItem("charGuaranteeFour") === "true",
       pityFive: parseInt(sessionStorage.getItem("charPityFive")) || 0,

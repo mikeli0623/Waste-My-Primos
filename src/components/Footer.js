@@ -1,10 +1,15 @@
 import React from "react";
 
-const Footer = ({ resize }) => {
+const Footer = () => {
   return (
     <section id="footer">
-      <div id="footer-text" style={{ textShadow: "1px 0 5px black" }}>
-        Created by Mike Li. Please give me a job thanks. Icons made by
+      <div
+        id="footer-text"
+        style={{ textShadow: "1px 0 5px black", fontSize: "0.85em" }}
+      >
+        Created by Mike Li. All credit given to miHoYo for Genshin Impact and
+        all it's assets. Credit to cherrypiewithpoiso, Ailephi (u/Ailephi) and
+        lukatoni5 on DeviantArt for some images. Icons made by
         <a
           href="https://www.flaticon.com/authors/kiranshastry"
           title="Kiranshastry"

@@ -18,7 +18,48 @@ class Banner {
   }
 }
 
-const hutaoBanner = new Banner(
+const childeAlt = new Banner(
+  "childe_alt",
+  ["tartaglia"],
+  ["rosaria", "fischl", "barbara"],
+  ["jean", "qiqi", "mona", "keqing", "diluc"],
+  [],
+  [
+    "sucrose",
+    "diona",
+    "chongyun",
+    "beidou",
+    "razor",
+    "noelle",
+    "ningguang",
+    "xingqiu",
+    "xiangling",
+    "bennett",
+    "xinyan",
+  ],
+  [
+    "sacrificial_bow",
+    "rust",
+    "the_stringless",
+    "favonius_warbow",
+    "sacrificial_fragments",
+    "eye_of_perception",
+    "favonius_codex",
+    "the_widsith",
+    "sacrificial_greatsword",
+    "rainslasher",
+    "favonius_greatsword",
+    "the_bell",
+    "dragon's_bane",
+    "favonius_lance",
+    "sacrificial_sword",
+    "the_flute",
+    "lion's_roar",
+    "favonius_sword",
+  ]
+);
+
+const hutao = new Banner(
   "hutao",
   ["hutao"],
   ["xingqiu", "xiangling", "chongyun"],
@@ -58,7 +99,7 @@ const hutaoBanner = new Banner(
   ]
 );
 
-const xiaoBanner = new Banner(
+const xiao = new Banner(
   "xiao",
   ["xiao"],
   ["diona", "beidou", "xinyan"],
@@ -98,7 +139,7 @@ const xiaoBanner = new Banner(
   ]
 );
 
-const ganyuBanner = new Banner(
+const ganyu = new Banner(
   "ganyu",
   ["ganyu"],
   ["noelle", "xingqiu", "xiangling"],
@@ -138,7 +179,7 @@ const ganyuBanner = new Banner(
   ]
 );
 
-const albedoBanner = new Banner(
+const albedo = new Banner(
   "albedo",
   ["albedo"],
   ["bennett", "fischl", "sucrose"],
@@ -178,7 +219,7 @@ const albedoBanner = new Banner(
   ]
 );
 
-const zhongliBanner = new Banner(
+const zhongli = new Banner(
   "zhongli",
   ["zhongli"],
   ["xinyan", "chongyun", "razor"],
@@ -217,7 +258,7 @@ const zhongliBanner = new Banner(
   ]
 );
 
-const childeBanner = new Banner(
+const childe = new Banner(
   "childe",
   ["tartaglia"],
   ["diona", "beidou", "ningguang"],
@@ -256,7 +297,7 @@ const childeBanner = new Banner(
   ]
 );
 
-const kleeBanner = new Banner(
+const klee = new Banner(
   "klee",
   ["klee"],
   ["noelle", "sucrose", "xingqiu"],
@@ -294,7 +335,7 @@ const kleeBanner = new Banner(
   ]
 );
 
-const ventiBanner = new Banner(
+const venti = new Banner(
   "venti",
   ["venti"],
   ["fischl", "xiangling", "barbara"],
@@ -332,7 +373,61 @@ const ventiBanner = new Banner(
   ]
 );
 
-const hutaoEiBanner = new Banner(
+const childeAltEi = new Banner(
+  "childe_alt_ei",
+  ["skyward_harp", "lost_prayer_to_the_sacred_winds"],
+  [
+    "alley_hunter",
+    "favonius_codex",
+    "favonius_lance",
+    "sacrificial_greatsword",
+    "favonius_sword",
+  ],
+  [],
+  [
+    "amos'_bow",
+    "skyward_atlas",
+    "wolf's_gravestone",
+    "skyward_pride",
+    "primordial_jade_winged-spear",
+    "skyward_spine",
+    "skyward_blade",
+    "aquila_favonia",
+  ],
+  [
+    "sucrose",
+    "diona",
+    "chongyun",
+    "fischl",
+    "beidou",
+    "razor",
+    "noelle",
+    "ningguang",
+    "xingqiu",
+    "barbara",
+    "xinyan",
+    "bennett",
+    "xiangling",
+  ],
+  [
+    "rust",
+    "sacrificial_bow",
+    "the_stringless",
+    "favonius_warbow",
+    "eye_of_perception",
+    "sacrificial_fragments",
+    "the_widsith",
+    "rainslasher",
+    "the_bell",
+    "favonius_greatsword",
+    "dragon's_bane",
+    "lion's_roar",
+    "sacrificial_sword",
+    "the_flute",
+  ]
+);
+
+const hutaoEi = new Banner(
   "hutao_ei",
   ["staff_of_homa", "wolf's_gravestone"],
   [
@@ -388,7 +483,7 @@ const hutaoEiBanner = new Banner(
   ]
 );
 
-const xiaoEiBanner = new Banner(
+const xiaoEi = new Banner(
   "xiao_ei",
   ["primordial_jade_cutter", "primordial_jade_winged-spear"],
   [
@@ -442,7 +537,7 @@ const xiaoEiBanner = new Banner(
   ]
 );
 
-const ganyuEiBanner = new Banner(
+const ganyuEi = new Banner(
   "ganyu_ei",
   ["amos'_bow", "skyward_pride"],
   [
@@ -495,7 +590,7 @@ const ganyuEiBanner = new Banner(
   ]
 );
 
-const albedoEiBanner = new Banner(
+const albedoEi = new Banner(
   "albedo_ei",
   ["skyward_atlas", "summit_shaper"],
   [
@@ -549,7 +644,7 @@ const albedoEiBanner = new Banner(
   ]
 );
 
-const zhongliEiBanner = new Banner(
+const zhongliEi = new Banner(
   "zhongli_ei",
   ["vortex_vanquisher", "the_unforged"],
   [
@@ -602,7 +697,7 @@ const zhongliEiBanner = new Banner(
   ]
 );
 
-const childeEiBanner = new Banner(
+const childeEi = new Banner(
   "childe_ei",
   ["memory_of_dust", "skyward_harp"],
   ["rust", "eye_of_perception", "favonius_lance", "rainslasher", "the_flute"],
@@ -648,7 +743,7 @@ const childeEiBanner = new Banner(
   ]
 );
 
-const kleeEiBanner = new Banner(
+const kleeEi = new Banner(
   "klee_ei",
   ["lost_prayer_to_the_sacred_winds", "wolf's_gravestone"],
   [
@@ -699,7 +794,7 @@ const kleeEiBanner = new Banner(
   ]
 );
 
-const ventiEiBanner = new Banner(
+const ventiEi = new Banner(
   "venti_ei",
   ["amos'_bow", "aquila_favonia"],
   ["the_stringless", "the_widsith", "favonius_lance", "the_bell", "the_flute"],
@@ -744,7 +839,7 @@ const ventiEiBanner = new Banner(
   ]
 );
 
-const standardBanner = new Banner(
+const standard = new Banner(
   "standard",
   [],
   [],
@@ -800,21 +895,23 @@ const standardBanner = new Banner(
 );
 
 export const allBanners = [
-  hutaoBanner,
-  hutaoEiBanner,
-  xiaoBanner,
-  xiaoEiBanner,
-  ganyuBanner,
-  ganyuEiBanner,
-  albedoBanner,
-  albedoEiBanner,
-  zhongliBanner,
-  zhongliEiBanner,
-  childeBanner,
-  childeEiBanner,
-  kleeBanner,
-  kleeEiBanner,
-  ventiBanner,
-  ventiEiBanner,
-  standardBanner,
+  childeAlt,
+  childeAltEi,
+  hutao,
+  hutaoEi,
+  xiao,
+  xiaoEi,
+  ganyu,
+  ganyuEi,
+  albedo,
+  albedoEi,
+  zhongli,
+  zhongliEi,
+  childe,
+  childeEi,
+  klee,
+  kleeEi,
+  venti,
+  ventiEi,
+  standard,
 ];

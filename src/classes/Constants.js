@@ -67,6 +67,7 @@ const allChars = [
   "ganyu",
   "xiao",
   "hutao",
+  "rosaria",
 ];
 
 const allWeapons = [
@@ -119,9 +120,12 @@ const allWeapons = [
   "staff_of_homa",
   "lithic_blade",
   "lithic_spear",
+  "alley_hunter",
 ];
 
 const allBannersAbbr = [
+  "childe_alt",
+  "childe_alt_ei",
   "hutao",
   "hutao_ei",
   "xiao",

@@ -54,8 +54,8 @@ const Main = () => {
   );
 
   const [activeBanners, setActiveBanners] = useState([
-    "hutao",
-    "hutao_ei",
+    "childe_alt",
+    "childe_alt_ei",
     "standard",
   ]);
 

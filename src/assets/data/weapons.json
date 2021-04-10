@@ -1,4 +1,16 @@
 [
+	{
+        "name": "Alley Hunter",
+        "type": "Bow",
+        "rarity": 4,
+        "baseAttack": "4",
+        "subStat": "ATK",
+        "passiveName": "Urban Guerrilla",
+        "passiveDesc": "While the character equipped with this weapon is in the party but not on the field, their DMG increases by 2% every second up to a max of 20%. When the character is on the field for more than 4s, the aforementioned DMG buff decreases by 4% per second until it reaches 0%.",
+        "gachaSingle": "../assets/img/gacha/single/alley_hunter.webp",
+        "gachaMulti": "../assets/img/gacha/multi/alley_hunter.webp",
+        "thumb": "../assets/img/thumb/alley_hunter.webp"
+    },
     {
         "name": "Amos' Bow",
         "type": "Bow",

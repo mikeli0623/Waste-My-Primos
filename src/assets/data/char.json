@@ -10,17 +10,6 @@
         "gachaMulti": "../assets/img/gacha/multi/albedo.webp",
         "thumb": "../assets/img/thumb/albedo.webp"
     },
-	{
-        "name": "Hutao",
-        "vision": "Pyro",
-        "weapon": "Polearm",
-        "rarity": 5,
-        "description": "",
-        "constellations": [],
-        "gachaSingle": "../assets/img/gacha/single/hutao.webp",
-        "gachaMulti": "../assets/img/gacha/multi/hutao.webp",
-        "thumb": "../assets/img/thumb/hutao.webp"
-    },
     {
         "name": "Amber",
         "vision": "Pyro",
@@ -367,6 +356,17 @@
         "gachaSingle": "../assets/img/gacha/single/ganyu.webp",
         "gachaMulti": "../assets/img/gacha/multi/ganyu.webp",
         "thumb": "../assets/img/thumb/ganyu.webp"
+    },
+	{
+        "name": "Hutao",
+        "vision": "Pyro",
+        "weapon": "Polearm",
+        "rarity": 5,
+        "description": "",
+        "constellations": [],
+        "gachaSingle": "../assets/img/gacha/single/hutao.webp",
+        "gachaMulti": "../assets/img/gacha/multi/hutao.webp",
+        "thumb": "../assets/img/thumb/hutao.webp"
     },
     {
         "name": "Jean",
@@ -787,6 +787,17 @@
         "gachaSingle": "../assets/img/gacha/single/razor.webp",
         "gachaMulti": "../assets/img/gacha/multi/razor.webp",
         "thumb": "../assets/img/thumb/razor.webp"
+    },
+	{
+        "name": "Rosaria",
+        "vision": "Cryo",
+        "weapon": "Polearm",
+        "rarity": 4,
+        "description": "",
+        "constellations": [],
+        "gachaSingle": "../assets/img/gacha/single/rosaria.webp",
+        "gachaMulti": "../assets/img/gacha/multi/rosaria.webp",
+        "thumb": "../assets/img/thumb/rosaria.webp"
     },
     {
         "name": "Sucrose",

@@ -8,7 +8,7 @@ const Footer = () => {
         style={{ textShadow: "1px 0 5px black", fontSize: "0.85em" }}
       >
         Created by Mike Li. All credit given to miHoYo for Genshin Impact and
-        all it's assets. Credit to cherrypiewithpoiso, Ailephi (u/Ailephi) and
+        all it's assets. Credit to cherrypiewithpoison, Ailephi (u/Ailephi) and
         lukatoni5 on DeviantArt for some images. Icons made by
         <a
           href="https://www.flaticon.com/authors/kiranshastry"

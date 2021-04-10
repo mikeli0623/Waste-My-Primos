@@ -1,5 +1,18 @@
 [	
 	{
+        "abbr": "childe_alt",
+        "title": "Farewell of Snezhnaya",
+        "mainBanner": "../assets/img/banner/childe_alt.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/childe.webp",
+		"miniActive": "../assets/img/misc/mini-banners/childe_active.webp" 
+	},
+    {
+        "abbr": "childe_alt_ei",
+        "mainBanner": "../assets/img/banner/childe_alt_ei.webp",
+        "miniBanner": "../assets/img/misc/mini-banners/childe_alt_ei.webp",
+		"miniActive": "../assets/img/misc/mini-banners/childe_alt_ei_active.webp" 
+	},
+	{
         "abbr": "hutao",
         "title": "Moment of Bloom",
         "mainBanner": "../assets/img/banner/hutao.webp",

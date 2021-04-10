@@ -13,6 +13,7 @@ Greatest Genshin Impact Wish Simulator you'll ever see
 https://wastemyprimos.web.app/
 
 # To Do
+- optimize for mobile
 - actual server implementation with Heroku
 - pity counter
 - portrait displays for collection
